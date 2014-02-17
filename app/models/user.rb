@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validate :uid, :email, :agency_number, :account_number,
+  validates :uid, :agency_number, :account_number,
     :presence => true
 
 end
