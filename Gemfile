@@ -15,31 +15,37 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+# Webserver
+gem 'unicorn'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
+group :production do
+  gem 'rails_12factor' #Heroku deploy only
 end
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+group :development do
 
-# Use unicorn as the app server
-# gem 'unicorn'
+  # Documentation
+  gem 'annotate', ">=2.6.0" # Add a comment summarizing the current schema of each model
 
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
+  gem 'guard', "~> 2.2.5"
+  gem "guard-rspec", "~> 4.2.4", :require => false
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+  # Debugging
+  gem 'better_errors'       # Web UI to debug exceptions. Go to /__better_errors to access the latest one
+  gem 'binding_of_caller'  # Retrieve the binding of a method's caller in MRI Ruby >= 1.9.2
+end
+
+group :test do
+  gem 'simplecov', :require => false # Test coverage generator. Go to /coverage/ after running tests
+  gem 'database_cleaner'
+end
+
+group :development, :test do
+  gem "rspec-rails", "~> 2.14.1"
+  gem 'factory_girl_rails'
+  gem 'capybara', '~> 2.2.0'
+  gem "launchy", "~> 2.4.2"
+end
