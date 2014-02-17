@@ -1,27 +1,30 @@
 <div class="page-header">
-  <h1>Bem-vindo ao PigBank</h1>
-  <p class="lead">Acesse seus serviços através do painel abaixo.</p>
+  <h1>Welcome to PigBank</h1>
+  <p class="lead">Access your services through the panel below.</p>
 </div>
 
 <section>
 
   <div class="col-xs-4">
     <%= link_to "Realizar Depósito", "#", :class => "main-button" %>
-
-    <% if user_signed_in? %>
-      <%= link_to "Saque", "#", :class => "main-button" %>
-      <%= link_to "Transferência", "#", :class => "main-button" %>
-      <%= link_to "Visualizar Saldo", "#", :class => "main-button" %>
-      <%= link_to "Visualizar Extrato", "#", :class => "main-button" %>
-    <% end %>
-
+    <%= link_to "Saque", "#", :class => "main-button", :disabled => !user_signed_in? %>
+    <%= link_to "Transferência", "#", :class => "main-button", :disabled => !user_signed_in? %>
+    <%= link_to "Visualizar Saldo", "#", :class => "main-button", :disabled => !user_signed_in? %>
+    <%= link_to "Visualizar Extrato", "#", :class => "main-button", :disabled => !user_signed_in? %>
   </div>
 
   <div class="col-xs-8">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <% if !user_signed_in? %>
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <h3>Gain access to all the services!</h3>
+          <p><%= link_to "Create a new account", new_user_registration_path %></p>
+          <p>or</p>
+          <p><%= link_to "Log in", new_user_session_path %> with a existing one.</p>
+
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
 </section>
