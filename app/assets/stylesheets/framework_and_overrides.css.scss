@@ -1,18 +1,8 @@
 // import the CSS framework
 @import "bootstrap";
 
-.column {
-  @extend .col-md-6;
-  @extend .text-center;
-}
-
-.form {
-  @extend .col-md-6;
-}
-
-.form-centered {
-  @extend .col-md-6;
-  @extend .text-center;
+body {
+  background-color: #eee;
 }
 
 .container {
@@ -27,6 +17,7 @@ main {
   border: 1px solid #e7e7e7;
   border-top: 0px;
   min-height: 600px;
+  background-color: #f8f8f8;
 }
 
 .main-button {
@@ -40,4 +31,48 @@ main {
 section {
   @extend .row;
   margin-top: 20px;
+}
+
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin .first {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin .middle {
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+
+.form-signin .last {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }

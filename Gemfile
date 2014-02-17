@@ -13,6 +13,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
 
+# User authentication
+gem 'devise'
+
 # Webserver
 gem 'unicorn'
 

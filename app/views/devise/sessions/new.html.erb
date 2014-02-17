@@ -1,0 +1,9 @@
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-signin", :role => "form"}) do |f| %>
+  <%= devise_error_messages! %>
+  <h2 class="form-signin-heading">Sign in</h2>
+
+  <%= f.text_field :uid, :class=> "form-control first", :placeholder => "UID" %>
+  <%= f.password_field :password, :class=> "form-control last", :placeholder => "Password" %>
+
+  <%= f.submit "Sign in", :class => "btn btn-lg btn-primary btn-block" %>
+<% end %>
