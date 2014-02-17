@@ -1,33 +1,43 @@
 // import the CSS framework
 @import "bootstrap";
 
-// THESE ARE EXAMPLES YOU CAN MODIFY
-// create your own classes
-// to make views framework-neutral
 .column {
   @extend .col-md-6;
   @extend .text-center;
-  }
+}
+
 .form {
   @extend .col-md-6;
-  }
+}
+
 .form-centered {
   @extend .col-md-6;
   @extend .text-center;
-  }
-.submit {
-  @extend .btn;
-  @extend .btn-primary;
-  @extend .btn-lg;
-  }
-// apply styles to HTML elements
-// to make views framework-neutral
+}
+
+.container {
+  width: 970px;
+  max-width: none !important;
+}
+
 main {
   @extend .container;
   padding-bottom: 80px;
-  margin-top: 51px; // accommodate the navbar
-  }
+  margin-top: 51px;
+  border: 1px solid #e7e7e7;
+  border-top: 0px;
+  min-height: 600px;
+}
+
+.main-button {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+  min-width: 200px;
+  margin-bottom: 20px;
+}
+
 section {
   @extend .row;
   margin-top: 20px;
-  }
+}
