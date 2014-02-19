@@ -1,6 +1,7 @@
 $('input.price').priceFormat({
   prefix: '',
   limit: 10,
+  thousandsSeparator: '',
   centsLimit: 2,
   clearPrefix: true
 });
