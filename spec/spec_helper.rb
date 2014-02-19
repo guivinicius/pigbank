@@ -28,6 +28,7 @@ RSpec.configure do |config|
 
   # Devise
   config.include Devise::TestHelpers, :type => :controller
+  config.extend ControllerMacros, :type => :controller
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods

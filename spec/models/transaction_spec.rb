@@ -29,15 +29,17 @@ describe Transaction do
   # Still needs to figure out how to test after_commit
   #
   # describe "#update_user_balance" do
+
+  #   after { transaction.run_callbacks(:commit) }
+
   #   context "as debit" do
 
   #     it "subtracts the user balance by 20" do
-
   #       transaction.activity_type = 1
   #       transaction.amount = 20
   #       transaction.save
 
-  #       expect(user.balance).to eq(BigDecimal(80))
+  #       expect(user.balance).to eq(80)
   #     end
 
   #   end

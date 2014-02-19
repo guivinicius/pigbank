@@ -1,0 +1,28 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    Withdraw
+  </div>
+
+  <div class="panel-body">
+    <%= form_for @withdraw, :url => check_withdraw_path, :html => {:class => "form-horizontal"} do |f| -%>
+
+      <div class="form-group">
+        <%= f.label :amount, nil, :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= f.text_field :amount, :class => "form-control price", :required => true %>
+        </div>
+      </div>
+
+      <%= f.hidden_field :activity_type %>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit "Continue", :class => "btn btn-success" %>
+        </div>
+      </div>
+
+    <% end  %>
+  </div>
+
+</div>

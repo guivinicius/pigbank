@@ -22,20 +22,35 @@ class Transaction < ActiveRecord::Base
   validates :activity_type, :amount, :user_id,
     :presence => true
 
+  validates :amount,
+    :numericality => { :greater_than => 0 }
+
+  validates :amount,
+    :numericality => { :less_than_or_equal_to => :current_user_balance },
+    :if => :is_debit?
+
   belongs_to :user
 
   after_commit :update_user_balance,
     :on => :create
 
+  def is_debit?
+    activity_type == ACTIVITY_TYPES[:debit]
+  end
+
   private
+
+  def current_user_balance
+    user.balance
+  end
 
   def update_user_balance
 
     case activity_type
       when ACTIVITY_TYPES[:credit]
-        user.update_attribute(:balance, user.balance + amount)
+        user.update_attribute(:balance, current_user_balance + amount)
       when ACTIVITY_TYPES[:debit]
-        user.update_attribute(:balance, user.balance - amount)
+        user.update_attribute(:balance, current_user_balance - amount)
     end
 
   end

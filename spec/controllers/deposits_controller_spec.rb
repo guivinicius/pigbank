@@ -29,6 +29,7 @@ describe DepositsController do
   describe "POST 'check'" do
 
     it "returns http success" do
+      post :check, invalid_params
       expect(response.status).to eq(200)
     end
 
@@ -79,6 +80,7 @@ describe DepositsController do
   describe "POST 'create'" do
 
     it "returns http success" do
+      post :create, valid_params
       expect(response.status).to eq(200)
     end
 
@@ -92,11 +94,12 @@ describe DepositsController do
       end
 
       it "create a new deposit" do
-        post :create, valid_params
-        expect(assigns(:deposit)).to be_valid
+        expect{
+          post :create, valid_params
+        }.to change(Transaction, :count).by(1)
       end
 
-      it "renders the new template" do
+      it "renders the create template" do
         post :create, valid_params
         expect(response).to render_template("create")
       end
@@ -107,9 +110,15 @@ describe DepositsController do
 
       it "checks the account existence" do
         expect(User).to receive(:find_by).with(:agency_number => invalid_params[:agency_number], :account_number => invalid_params[:account_number])
-        .and_return(user)
+        .and_return(nil)
 
         post :create, invalid_params
+      end
+
+      it "create a new deposit" do
+        expect{
+          post :create, invalid_params
+        }.not_to change(Transaction, :count).by(1)
       end
 
       it "renders the new template" do
@@ -117,6 +126,15 @@ describe DepositsController do
         expect(response).to render_template("new")
       end
 
+    end
+
+    context "with amount of 0" do
+      it "renders the new template" do
+        valid_params[:transaction][:amount] = BigDecimal(0)
+
+        post :create, valid_params
+        expect(response).to render_template("new")
+      end
     end
 
 

@@ -1,0 +1,25 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    Receipt
+  </div>
+
+  <div class="panel-body">
+
+    <div class="well well-sm">
+      <h5>Withdraw Receipt <small><%= "##{@withdraw.id}" %></small></h5>
+
+      <p>From: <%= current_user.name %></p>
+      <p>UID: <%= current_user.uid %></p>
+      <p>Agency: <%= current_user.agency_number %></p>
+      <p>Account: <%= current_user.account_number %></p>
+      <hr>
+      <p>Amount: <%= number_to_currency(@withdraw.amount) %></p>
+      <p>Current Balance: <%= number_to_currency(current_user.balance) %></p>
+      <hr>
+      <p>Transaction at <%= @withdraw.created_at %></p>
+    </div>
+
+  </div>
+
+</div>
