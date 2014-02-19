@@ -10,6 +10,8 @@ Pigbank::Application.routes.draw do
     post :check
   end
 
+  resource :balance, :only => [:show]
+
   root 'home#index'
 
 end
