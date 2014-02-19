@@ -18,21 +18,21 @@
       <div class="form-group">
         <%= label_tag :agency_number, "Agency", :class => "col-sm-2 control-label" %>
         <div class="col-xs-2">
-          <%= text_field_tag :agency_number, nil, :class => "form-control" %>
+          <%= text_field_tag :agency_number, nil, :class => "form-control", :required => true %>
         </div>
       </div>
 
       <div class="form-group">
         <%= label_tag :account_number, "Account", :class => "col-sm-2 control-label" %>
         <div class="col-xs-3">
-          <%= text_field_tag :account_number, nil, :class => "form-control" %>
+          <%= text_field_tag :account_number, nil, :class => "form-control", :required => true %>
         </div>
       </div>
 
       <div class="form-group">
         <%= f.label :amount, nil, :class => "col-sm-2 control-label" %>
         <div class="col-xs-3">
-          <%= f.text_field :amount, :class => "form-control price" %>
+          <%= f.text_field :amount, :class => "form-control price", :required => true %>
         </div>
       </div>
 

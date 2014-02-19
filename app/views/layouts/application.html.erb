@@ -24,11 +24,11 @@
       <section>
 
         <div class="col-xs-4">
-          <%= link_to "Realizar Depósito", new_deposit_path, :class => "main-button" %>
-          <%= link_to "Saque", "#", :class => "main-button", :disabled => !user_signed_in? %>
-          <%= link_to "Transferência", "#", :class => "main-button", :disabled => !user_signed_in? %>
-          <%= link_to "Visualizar Saldo", "#", :class => "main-button", :disabled => !user_signed_in? %>
-          <%= link_to "Visualizar Extrato", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "Deposit", new_deposit_path, :class => "main-button" %>
+          <%= link_to "Withdraw", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "Transference", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "View Balance", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "View Statement", "#", :class => "main-button", :disabled => !user_signed_in? %>
         </div>
 
         <div class="col-xs-8">

@@ -4,7 +4,7 @@ feature "Deposit" do
 
   given(:user) { create(:user) }
 
-  scenario "to a existing user as as signed off one" do
+  scenario "to a existing user" do
 
     visit new_deposit_path
 
@@ -19,6 +19,19 @@ feature "Deposit" do
     click_button "Make deposit"
 
     expect(page).to have_content "Amount deposited successfully."
+  end
+
+  scenario "to a non existing user" do
+
+    visit new_deposit_path
+
+    fill_in :agency_number, :with => "121212"
+    fill_in :account_number, :with => "12222222"
+    fill_in :transaction_amount, :with => "100.00"
+
+    click_button "Continue"
+
+    expect(page).to have_content "User account not found."
   end
 
 end

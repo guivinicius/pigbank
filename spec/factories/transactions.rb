@@ -20,7 +20,7 @@
 FactoryGirl.define do
   factory :transaction do
     activity_type 0
-    amount 0
+    amount 10
     user_id 1
     description ""
   end
