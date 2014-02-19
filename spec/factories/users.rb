@@ -39,5 +39,6 @@ FactoryGirl.define do
     account_number "213453"
     password "12345678"
     password_confirmation "12345678"
+    balance 0
   end
 end

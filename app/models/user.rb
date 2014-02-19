@@ -35,4 +35,7 @@ class User < ActiveRecord::Base
   validates :uid, :agency_number, :account_number,
     :presence => true
 
+  has_many :transactions,
+    :dependent => :destroy
+
 end

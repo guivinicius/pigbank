@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "PigBank" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "PigBank" %>">
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+    <header>
+      <%= render 'layouts/navigation' %>
+    </header>
+
+    <main role="main">
+       <%= render 'layouts/messages' %>
+       <%= yield %>
+    </main>
+
+    <%= javascript_include_tag "application" %>
+  </body>
+
+</html>

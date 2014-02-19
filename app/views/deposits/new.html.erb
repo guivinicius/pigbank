@@ -1,0 +1,50 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    Depositing to
+  </div>
+
+  <div class="panel-body">
+    <%= form_for @deposit, :url => check_deposit_path, :html => {:class => "form-horizontal"} do |f| -%>
+
+      <% if user_signed_in? %>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <%= link_to "my own account", "#", :id => "myOwnAccountLink", :data => { :agency_number => current_user.agency_number, :account_number => current_user.account_number } %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= label_tag :agency_number, "Agency", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-2">
+          <%= text_field_tag :agency_number, nil, :class => "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :account_number, "Account", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= text_field_tag :account_number, nil, :class => "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :amount, nil, :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= f.text_field :amount, :class => "form-control price" %>
+        </div>
+      </div>
+
+      <%= f.hidden_field :activity_type %>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit "Continue", :class => "btn btn-success" %>
+        </div>
+      </div>
+
+    <% end  %>
+  </div>
+
+</div>

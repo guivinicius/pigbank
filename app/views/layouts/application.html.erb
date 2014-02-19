@@ -4,7 +4,6 @@
     <title><%= content_for?(:title) ? yield(:title) : "PigBank" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "PigBank" %>">
     <%= stylesheet_link_tag "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -16,9 +15,31 @@
 
     <main role="main">
        <%= render 'layouts/messages' %>
-       <%= yield %>
+
+       <div class="page-header">
+        <h1>Welcome to PigBank</h1>
+        <p class="lead">Access your services through the panel below.</p>
+      </div>
+
+      <section>
+
+        <div class="col-xs-4">
+          <%= link_to "Realizar Depósito", new_deposit_path, :class => "main-button" %>
+          <%= link_to "Saque", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "Transferência", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "Visualizar Saldo", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "Visualizar Extrato", "#", :class => "main-button", :disabled => !user_signed_in? %>
+        </div>
+
+        <div class="col-xs-8">
+          <%= yield %>
+        </div>
+
+      </section>
+
     </main>
 
+    <%= javascript_include_tag "application" %>
   </body>
 
 </html>
