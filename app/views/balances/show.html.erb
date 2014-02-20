@@ -7,7 +7,7 @@
   <div class="panel-body">
 
     <div class="well well-sm">
-      <h5>Balance retrieved at <%= Time.now %></h5>
+      <h5>Balance retrieved at <%= l(Time.zone.now, :format => :long) %></h5>
 
       <p><%= current_user.name %></p>
       <p>UID: <%= current_user.uid %></p>
