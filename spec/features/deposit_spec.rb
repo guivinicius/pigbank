@@ -4,9 +4,11 @@ feature "Deposit" do
 
   given(:user) { create(:user) }
 
-  scenario "to a existing user" do
-
+  background do
     visit new_deposit_path
+  end
+
+  scenario "to a existing user" do
 
     fill_in :agency_number, :with => user.agency_number
     fill_in :account_number, :with => user.account_number
@@ -22,8 +24,6 @@ feature "Deposit" do
   end
 
   scenario "to a non existing user" do
-
-    visit new_deposit_path
 
     fill_in :agency_number, :with => "121212"
     fill_in :account_number, :with => "12222222"

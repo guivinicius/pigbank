@@ -27,16 +27,19 @@ describe WithdrawsController do
 
   describe "POST 'check'" do
 
-    it "returns http success" do
-      post :check, params
-      expect(response.status).to eq(200)
-    end
+    context "with amount less than user balance" do
 
-    context "with amount lesser than user balance" do
-
-      it "renders the check template" do
+      before do
         @user.balance = 1000.00
         @user.save
+      end
+
+      it "returns http success" do
+        post :check, params
+        expect(response.status).to eq(200)
+      end
+
+      it "renders the check template" do
         post :check, params
         expect(response).to render_template("check")
       end
@@ -45,11 +48,11 @@ describe WithdrawsController do
 
     context "with amount higher than user balance" do
 
-      it "renders the new template" do
+      it "redirects to Withdraw new" do
         @user.balance = 10.00
         @user.save
         post :check, params
-        expect(response).to render_template("new")
+        expect(response).to redirect_to(new_withdraw_path)
       end
 
     end
@@ -63,11 +66,6 @@ describe WithdrawsController do
       @user.save
     end
 
-    it "returns http success" do
-      post :create, params.merge({:password => @user.password})
-      expect(response.status).to eq(200)
-    end
-
     context "with right password" do
 
       it "creates a new transaction" do
@@ -76,9 +74,18 @@ describe WithdrawsController do
         }.to change(Transaction, :count).by(1)
       end
 
-      it "renders create template" do
+      it "redirects to Withdraw" do
         post :create, params.merge({:password => @user.password})
-        expect(response).to render_template("create")
+        expect(response).to redirect_to(withdraw_path(Transaction.last))
+      end
+
+      context "with amount of 0" do
+        it "renders the new template" do
+          params[:transaction][:amount] = BigDecimal(0)
+
+          post :create, params.merge({:password => @user.password})
+          expect(response).to redirect_to(new_withdraw_path)
+        end
       end
 
     end
@@ -91,20 +98,11 @@ describe WithdrawsController do
         }.not_to change(Transaction, :count).by(1)
       end
 
-      it "renders create template" do
+      it "redirects to Withdraw new" do
         post :create, params.merge({:password => "112"})
-        expect(response).to render_template("check")
+        expect(response).to redirect_to(new_withdraw_path)
       end
 
-    end
-
-    context "with amount of 0" do
-      it "renders the new template" do
-        params[:transaction][:amount] = BigDecimal(0)
-
-        post :create, params.merge({:password => @user.password})
-        expect(response).to render_template("new")
-      end
     end
 
   end

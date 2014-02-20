@@ -2,12 +2,12 @@ Pigbank::Application.routes.draw do
 
   devise_for :users
 
-  resource :deposit, :only => [:new, :create] do
-    post :check
+  resources :deposits, :only => [:new, :create, :show] do
+    post :check, :on => :collection
   end
 
-  resource :withdraw, :only => [:new, :create] do
-    post :check
+  resources :withdraws, :only => [:new, :create, :show] do
+    post :check, :on => :collection
   end
 
   resource :balance, :only => [:show]

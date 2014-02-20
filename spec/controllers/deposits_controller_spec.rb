@@ -28,33 +28,27 @@ describe DepositsController do
 
   describe "POST 'check'" do
 
-    it "returns http success" do
-      post :check, invalid_params
-      expect(response.status).to eq(200)
-    end
-
     context "to a nonexistent account" do
 
       it "checks the account existence" do
         expect(User).to receive(:find_by).with(:agency_number => invalid_params[:agency_number], :account_number => invalid_params[:account_number])
         .and_return(nil)
-
         post :check, invalid_params
-      end
-
-      it "assigns @deposit" do
-        post :check, invalid_params
-        expect(assigns(:deposit)).to be_a_new(Transaction).with(:activity_type => 0)
       end
 
       it "renders the new template" do
         post :check, invalid_params
-        expect(response).to render_template("new")
+        expect(response).to redirect_to(new_deposit_path)
       end
 
     end
 
     context "to a existent account" do
+
+      it "returns http success" do
+        post :check, valid_params
+        expect(response.status).to eq(200)
+      end
 
       it "checks the account existence" do
         expect(User).to receive(:find_by).with(:agency_number => valid_params[:agency_number], :account_number => valid_params[:account_number])
@@ -79,11 +73,6 @@ describe DepositsController do
 
   describe "POST 'create'" do
 
-    it "returns http success" do
-      post :create, valid_params
-      expect(response.status).to eq(200)
-    end
-
     context "with valid_params" do
 
       it "checks the account existence" do
@@ -99,9 +88,18 @@ describe DepositsController do
         }.to change(Transaction, :count).by(1)
       end
 
-      it "renders the create template" do
+      it "redirects to the Deposit show" do
         post :create, valid_params
-        expect(response).to render_template("create")
+        expect(response).to redirect_to(deposit_path(Transaction.last))
+      end
+
+      context "with amount of 0" do
+        it "renders the new template" do
+          valid_params[:transaction][:amount] = BigDecimal(0)
+
+          post :create, valid_params
+          expect(response).to redirect_to(new_deposit_path)
+        end
       end
 
     end
@@ -121,22 +119,12 @@ describe DepositsController do
         }.not_to change(Transaction, :count).by(1)
       end
 
-      it "renders the new template" do
+      it "redirects to new Deposit " do
         post :create, invalid_params
-        expect(response).to render_template("new")
+        expect(response).to redirect_to(new_deposit_path)
       end
 
     end
-
-    context "with amount of 0" do
-      it "renders the new template" do
-        valid_params[:transaction][:amount] = BigDecimal(0)
-
-        post :create, valid_params
-        expect(response).to render_template("new")
-      end
-    end
-
 
   end
 

@@ -1,46 +1,47 @@
 class DepositsController < ApplicationController
+
   def new
     @deposit = Transaction.new(:activity_type => 0)
   end
 
   def check
 
-    @user = User.find_by(:agency_number => params[:agency_number], :account_number => params[:account_number])
-
-    if @user
+    if find_user_account
       @deposit = @user.transactions.new(transaction_params)
     else
-      @deposit = Transaction.new(:activity_type => 0)
-      flash[:error] = "User account not found."
-      render :new
+      redirect_to new_deposit_path, :alert => "User account not found."
     end
 
   end
 
   def create
 
-      @user = User.find_by(:agency_number => params[:agency_number], :account_number => params[:account_number])
-
-      if @user
+      if find_user_account
         @deposit = @user.transactions.new(transaction_params)
         if @deposit.save
-          flash[:notice] = "Amount deposited successfully."
+          redirect_to deposit_path(@deposit), :notice => "Amount deposited successfully."
         else
-          flash[:error] = "Sorry. Something happend during the transaction of your deposit."
-          render :new
+          redirect_to new_deposit_path, :alert => "Sorry. Something happend during the transaction of your deposit."
         end
       else
-        @deposit = Transaction.new(:activity_type => 0)
-        flash[:error] = "User account not found."
-        render :new
+        redirect_to new_deposit_path, :alert => "User account not found."
       end
 
+  end
+
+  def show
+    @deposit = Transaction.find(params[:id])
+    @user = @deposit.user
   end
 
   private
 
   def transaction_params
     params.require(:transaction).permit(:amount, :activity_type)
+  end
+
+  def find_user_account
+    @user = User.find_by(:agency_number => params[:agency_number], :account_number => params[:account_number])
   end
 
 end

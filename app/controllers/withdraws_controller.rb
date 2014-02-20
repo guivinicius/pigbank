@@ -11,8 +11,7 @@ class WithdrawsController < ApplicationController
     if can_withdraw?
       @withdraw.amount = params[:transaction][:amount]
     else
-      flash[:error] = "You can't withdraw more than your current balance."
-      render :new
+      redirect_to new_withdraw_path, :alert => "You can't withdraw more than your current balance."
     end
 
   end
@@ -24,17 +23,19 @@ class WithdrawsController < ApplicationController
     if can_withdraw? && correct_password?
 
       if @withdraw.save
-        flash[:notice] = "Withdrawal completed successfully."
+        redirect_to withdraw_path(@withdraw), :notice => "Withdrawal completed successfully."
       else
-        flash[:error] = "Sorry. Something happend during the transaction of your withdraw."
-        render :new
+        redirect_to new_withdraw_path, :alert => "Sorry. Something happend during the transaction of your withdraw."
       end
 
     else
-      flash[:error] = "Wrong password."
-      render :check
+      redirect_to new_withdraw_path, :alert => "Wrong password."
     end
 
+  end
+
+  def show
+    @withdraw = current_user.transactions.find(params[:id])
   end
 
   private
