@@ -23,5 +23,19 @@ FactoryGirl.define do
     amount 10
     user_id 1
     description ""
+    created_at Time.now
+
+    trait :credit do
+      activity_type 0
+      description "Deposit"
+    end
+
+    trait :debit do
+      activity_type 1
+      description "Withdraw"
+    end
+
+    factory :credit_transaction, :traits => [:credit]
+    factory :debit_transaction, :traits => [:debit]
   end
 end

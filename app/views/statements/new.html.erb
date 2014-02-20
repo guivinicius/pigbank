@@ -1,0 +1,39 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    View Statement
+  </div>
+
+  <div class="panel-body">
+    <%= form_tag statement_path, :class => "form-horizontal", :method => :get do %>
+
+      <div class="form-group">
+        <%= label_tag :start_date, "From", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= text_field_tag :start_date, nil, :class => "form-control datepicker" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :start_date, "To", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= text_field_tag :end_date, nil, :class => "form-control datepicker" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <span class="help-block">Leave blank to see the last 30 days.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= submit_tag "View", :class => "btn btn-success" %>
+        </div>
+      </div>
+
+    <% end  %>
+  </div>
+
+</div>

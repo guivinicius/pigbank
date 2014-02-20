@@ -12,6 +12,8 @@ Pigbank::Application.routes.draw do
 
   resource :balance, :only => [:show]
 
+  resource :statement, :only => [:new, :show]
+
   root 'home#index'
 
 end

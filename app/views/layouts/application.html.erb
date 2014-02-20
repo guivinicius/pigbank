@@ -28,7 +28,7 @@
           <%= link_to "Withdraw", new_withdraw_path, :class => "main-button", :disabled => !user_signed_in? %>
           <%= link_to "Transference", "#", :class => "main-button", :disabled => !user_signed_in? %>
           <%= link_to "View Balance", balance_path, :class => "main-button", :disabled => !user_signed_in? %>
-          <%= link_to "View Statement", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "View Statement", new_statement_path, :class => "main-button", :disabled => !user_signed_in? %>
         </div>
 
         <div class="col-xs-8">
