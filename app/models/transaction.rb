@@ -34,6 +34,11 @@ class Transaction < ActiveRecord::Base
   after_commit :update_user_balance,
     :on => :create
 
+  def self.created_between(start_date, end_date = Date.current)
+    start_date = (Date.current - 30.days) if start_date.empty?
+    where(:created_at => Time.zone.parse("#{start_date} 00:00:00")..Time.zone.parse("#{end_date} 23:59:59"))
+  end
+
   def is_debit?
     activity_type == ACTIVITY_TYPES[:debit]
   end

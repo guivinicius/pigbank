@@ -42,4 +42,28 @@ feature "View Statement" do
     expect(page).to have_content "$50.00"
   end
 
+  scenario "with a missing start date" do
+    start_date = ""
+    end_date = Date.current.to_s
+
+    fill_in :start_date, :with => start_date
+    fill_in :end_date, :with => end_date
+
+    click_button "View"
+
+    expect(page).to have_content "Invalid date range."
+  end
+
+  scenario "with a missing end date" do
+    start_date = (Date.current - 10.days).to_s
+    end_date = ""
+
+    fill_in :start_date, :with => start_date
+    fill_in :end_date, :with => end_date
+
+    click_button "View"
+
+    expect(page).to have_content "Invalid date range."
+  end
+
 end

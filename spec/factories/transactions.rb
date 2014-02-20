@@ -23,7 +23,7 @@ FactoryGirl.define do
     amount 10
     user_id 1
     description ""
-    created_at Time.now
+    created_at Time.zone.now
 
     trait :credit do
       activity_type 0

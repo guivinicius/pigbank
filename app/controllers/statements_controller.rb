@@ -6,17 +6,23 @@ class StatementsController < ApplicationController
   end
 
   def show
-    @transactions = current_user.transactions.where(:created_at => date_range).order(:created_at)
+
+    if valid_date_range? || blank_dates?
+      @transactions = current_user.transactions.created_between(params[:start_date], params[:end_date]).order(:created_at)
+    else
+      redirect_to new_statement_path, :alert => "Invalid date range."
+    end
+
   end
 
   private
 
-  def date_range
-    if params[:start_date].empty? && params[:end_date].empty?
-      (Time.zone.now - 30.days)..Time.zone.now
-    else
-      Time.zone.parse(params[:start_date])..Time.zone.parse("#{params[:end_date]} 23:59:59")
-    end
+  def valid_date_range?
+    Date.parse(params[:end_date]) >= Date.parse(params[:start_date]) rescue false
+  end
+
+  def blank_dates?
+    params[:end_date].blank? && params[:start_date].blank?
   end
 
 end

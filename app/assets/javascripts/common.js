@@ -1,8 +1,3 @@
-$( "input.datepicker" ).datepicker({
-  dateFormat: "yy-mm-dd",
-  maxDate: 0
-});
-
 $('input.price').priceFormat({
   prefix: '',
   limit: 10,

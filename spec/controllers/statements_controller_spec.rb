@@ -22,17 +22,50 @@ describe StatementsController do
 
   describe "GET 'show'" do
 
-    before do
-      get :show, { :start_date => "", :end_date => ""}
+    context "with empty dates" do
+
+      before do
+        get :show, { :start_date => "", :end_date => "" }
+      end
+
+      it "returns http success" do
+        expect(response.status).to eql(200)
+      end
+
+      it "renders show template" do
+        expect(response).to render_template(:show)
+      end
+
     end
 
-    it "returns http success" do
-      expect(response.status).to eql(200)
+    context "with valid date range" do
+
+      before do
+        get :show, { :start_date => (Date.current - 5.days).to_s, :end_date => Date.current.to_s }
+      end
+
+      it "returns http success" do
+        expect(response.status).to eql(200)
+      end
+
+      it "renders show template" do
+        expect(response).to render_template(:show)
+      end
+
     end
 
-    it "renders show template" do
-      expect(response).to render_template(:show)
+    context "with invalid date range" do
+
+      before do
+        get :show, { :start_date => Date.current.to_s, :end_date => (Date.current - 5.days).to_s }
+      end
+
+      it "redirects to Statements new" do
+        expect(response).to redirect_to(new_statement_path)
+      end
+
     end
+
   end
 
 end
