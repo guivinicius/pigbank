@@ -38,4 +38,8 @@ class User < ActiveRecord::Base
   has_many :transactions,
     :dependent => :destroy
 
+  has_many :debits, -> { where(:activity_type => 1) }
+
+  has_many :credits, -> { where(:activity_type => 0) }
+
 end

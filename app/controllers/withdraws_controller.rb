@@ -1,15 +1,14 @@
 class WithdrawsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :new_withdraw, :except => [:show]
 
   def new
-    @withdraw = current_user.transactions.new(:activity_type => 1)
   end
 
   def check
-    @withdraw = current_user.transactions.new(:activity_type => 1)
 
     if can_withdraw?
-      @withdraw.amount = params[:transaction][:amount]
+      @withdraw.amount = params[:debit][:amount]
     else
       redirect_to new_withdraw_path, :alert => "You can't withdraw more than your current balance."
     end
@@ -17,8 +16,7 @@ class WithdrawsController < ApplicationController
   end
 
   def create
-    @withdraw = current_user.transactions.new(:activity_type => 1)
-    @withdraw.amount = params[:transaction][:amount]
+    @withdraw.amount = params[:debit][:amount]
 
     if can_withdraw? && correct_password?
 
@@ -35,13 +33,17 @@ class WithdrawsController < ApplicationController
   end
 
   def show
-    @withdraw = current_user.transactions.find(params[:id])
+    @withdraw = current_user.debits.find(params[:id])
   end
 
   private
 
+  def new_withdraw
+    @withdraw = current_user.debits.new
+  end
+
   def can_withdraw?
-    current_user.balance >= BigDecimal(params[:transaction][:amount])
+    current_user.balance >= BigDecimal(params[:debit][:amount])
   end
 
   def correct_password?

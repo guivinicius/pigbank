@@ -6,8 +6,8 @@ feature "View Statement" do
 
   background do
 
-    @ctransaction = create(:credit_transaction, :user_id => user.id, :amount => 100, :created_at => Time.zone.now - 10.days)
-    @dtransaction = create(:debit_transaction,  :user_id => user.id, :amount => 50, :created_at => Time.zone.now)
+    @credit = create(:credit, :user_id => user.id, :amount => 100, :created_at => Time.zone.now - 10.days)
+    @debit = create(:debit,  :user_id => user.id, :amount => 50, :created_at => Time.zone.now)
 
     visit new_user_session_path
 
@@ -37,7 +37,7 @@ feature "View Statement" do
 
     click_button "View"
 
-    expect(page).to have_content @dtransaction.id
+    expect(page).to have_content @debit.id
 
     expect(page).to have_content "$50.00"
   end

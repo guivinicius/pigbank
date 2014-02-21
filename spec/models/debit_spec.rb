@@ -15,14 +15,22 @@
 #  index_transactions_on_user_id  (user_id)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+require 'spec_helper'
 
-FactoryGirl.define do
-  factory :transaction do
-    activity_type 0
-    amount 10
-    user_id 1
-    description ""
-    created_at Time.zone.now
+describe Debit do
+
+  let(:user) { create(:user, :balance => 100.00) }
+  let(:debit) { build(:debit, :user_id => user.id) }
+
+  it 'is valid with valid attributes' do
+    debit.should be_valid
   end
+
+  it "does not allow amount higher than user balance" do
+    debit.amount = 200
+    debit.save
+
+    expect(debit).to have(1).error_on(:amount)
+  end
+
 end

@@ -12,7 +12,7 @@ feature "Deposit" do
 
     fill_in :agency_number, :with => user.agency_number
     fill_in :account_number, :with => user.account_number
-    fill_in :transaction_amount, :with => "100.00"
+    fill_in :credit_amount, :with => "100.00"
 
     click_button "Continue"
 
@@ -27,7 +27,7 @@ feature "Deposit" do
 
     fill_in :agency_number, :with => "121212"
     fill_in :account_number, :with => "12222222"
-    fill_in :transaction_amount, :with => "100.00"
+    fill_in :credit_amount, :with => "100.00"
 
     click_button "Continue"
 

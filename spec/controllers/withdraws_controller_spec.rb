@@ -3,7 +3,7 @@ require 'spec_helper'
 describe WithdrawsController do
 
   login_user
-  let(:params) { {:transaction => {:amount => BigDecimal(100) }} }
+  let(:params) { {:debit => {:amount => BigDecimal(100) }} }
 
   describe "GET 'new'" do
 
@@ -16,7 +16,7 @@ describe WithdrawsController do
     end
 
     it "assigns @withdraw" do
-      expect(assigns(:withdraw)).to be_a_new(Transaction).with(:activity_type => 1)
+      expect(assigns(:withdraw)).to be_a_new(Debit)
     end
 
     it "renders the new template" do
@@ -68,20 +68,20 @@ describe WithdrawsController do
 
     context "with right password" do
 
-      it "creates a new transaction" do
+      it "creates a new debit" do
         expect {
           post :create, params.merge({:password => @user.password})
-        }.to change(Transaction, :count).by(1)
+        }.to change(Debit, :count).by(1)
       end
 
       it "redirects to Withdraw" do
         post :create, params.merge({:password => @user.password})
-        expect(response).to redirect_to(withdraw_path(Transaction.last))
+        expect(response).to redirect_to(withdraw_path(Debit.last))
       end
 
       context "with amount of 0" do
         it "renders the new template" do
-          params[:transaction][:amount] = BigDecimal(0)
+          params[:debit][:amount] = BigDecimal(0)
 
           post :create, params.merge({:password => @user.password})
           expect(response).to redirect_to(new_withdraw_path)
@@ -92,10 +92,10 @@ describe WithdrawsController do
 
     context "with wrong password" do
 
-      it "creates a new transaction" do
+      it "creates a new debit" do
         expect {
           post :create, params.merge({:password => "112"})
-        }.not_to change(Transaction, :count).by(1)
+        }.not_to change(Debit, :count).by(1)
       end
 
       it "redirects to Withdraw new" do

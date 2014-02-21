@@ -3,8 +3,8 @@ require 'spec_helper'
 describe DepositsController do
 
   let(:user) { create(:user) }
-  let(:valid_params) { { :agency_number => user.agency_number.to_s, :account_number => user.account_number.to_s, :transaction => { :amount => BigDecimal("100.00"), :activity_type => 0 } } }
-  let(:invalid_params) { { :agency_number => "2222", :account_number => "11111", :transaction => {:amount => "100.00", :activity_type => 0} } }
+  let(:valid_params) { { :agency_number => user.agency_number.to_s, :account_number => user.account_number.to_s, :credit => { :amount => BigDecimal("100.00") } } }
+  let(:invalid_params) { { :agency_number => "2222", :account_number => "11111", :credit => {:amount => "100.00"} } }
 
   describe "GET 'new'" do
 
@@ -17,7 +17,7 @@ describe DepositsController do
     end
 
     it "assigns @deposit" do
-      expect(assigns(:deposit)).to be_a_new(Transaction).with(:activity_type => 0)
+      expect(assigns(:deposit)).to be_a_new(Credit)
     end
 
     it "renders the new template" do
@@ -59,7 +59,7 @@ describe DepositsController do
 
       it "assigns @deposit" do
         post :check, valid_params
-        expect(assigns(:deposit)).to be_a_new(Transaction).with(valid_params[:transaction])
+        expect(assigns(:deposit)).to be_a_new(Transaction).with(valid_params[:credit])
       end
 
       it "renders the new template" do
@@ -85,17 +85,17 @@ describe DepositsController do
       it "create a new deposit" do
         expect{
           post :create, valid_params
-        }.to change(Transaction, :count).by(1)
+        }.to change(Credit, :count).by(1)
       end
 
       it "redirects to the Deposit show" do
         post :create, valid_params
-        expect(response).to redirect_to(deposit_path(Transaction.last))
+        expect(response).to redirect_to(deposit_path(Credit.last))
       end
 
       context "with amount of 0" do
-        it "renders the new template" do
-          valid_params[:transaction][:amount] = BigDecimal(0)
+        it "redirects to Deposits new" do
+          valid_params[:credit][:amount] = BigDecimal(0)
 
           post :create, valid_params
           expect(response).to redirect_to(new_deposit_path)
@@ -116,7 +116,7 @@ describe DepositsController do
       it "create a new deposit" do
         expect{
           post :create, invalid_params
-        }.not_to change(Transaction, :count).by(1)
+        }.not_to change(Credit, :count).by(1)
       end
 
       it "redirects to new Deposit " do

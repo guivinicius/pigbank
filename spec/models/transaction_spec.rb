@@ -21,33 +21,57 @@ describe Transaction do
 
   let(:user) { create(:user, :balance => 100.00) }
   let(:transaction) { build(:transaction, :user_id => user.id) }
+  let(:transaction2) { build(:transaction, :user_id => user.id, :created_at => Time.zone.now - 10.days) }
 
   it 'is valid with valid attributes' do
     transaction.should be_valid
   end
 
-  # Still needs to figure out how to test after_commit
-  #
-  # describe "#update_user_balance" do
+  describe "amount validation" do
 
-  #   after { transaction.run_callbacks(:commit) }
+    it "allows amount higher than 0" do
+      transaction.amount = 10
+      transaction.save
 
-  #   context "as debit" do
+      expect(transaction).to have(0).errors_on(:amount)
+    end
 
-  #     it "subtracts the user balance by 20" do
-  #       transaction.activity_type = 1
-  #       transaction.amount = 20
-  #       transaction.save
+    it "does not allows amount less than or equal 0" do
+      transaction.amount = 0
+      transaction.save
 
-  #       expect(user.balance).to eq(80)
-  #     end
+      expect(transaction).to have(1).errors_on(:amount)
+    end
 
-  #   end
+  end
 
-  #   context "as credit" do
+  describe ".created_between" do
 
-  #   end
+    context "when pass no arguments" do
 
-  # end
+      it "returns all transactions" do
+        transaction.save
+        transaction2.save
+
+        expect(Transaction.created_between.size).to eql(2)
+      end
+
+    end
+
+    context "when pass arguments" do
+
+      it "returns only 1 transaction" do
+        transaction.save
+        transaction2.save
+
+        start_date = (Date.current - 2.days).to_s
+        end_date = Date.current.to_s
+
+        expect(Transaction.created_between(start_date, end_date).size).to eql(1)
+      end
+
+    end
+
+  end
 
 end

@@ -1,13 +1,13 @@
 class DepositsController < ApplicationController
 
   def new
-    @deposit = Transaction.new(:activity_type => 0)
+    @deposit = Credit.new
   end
 
   def check
 
     if find_user_account
-      @deposit = @user.transactions.new(transaction_params)
+      @deposit = @user.credits.new(credit_params)
     else
       redirect_to new_deposit_path, :alert => "User account not found."
     end
@@ -17,7 +17,7 @@ class DepositsController < ApplicationController
   def create
 
       if find_user_account
-        @deposit = @user.transactions.new(transaction_params)
+        @deposit = @user.credits.new(credit_params)
         if @deposit.save
           redirect_to deposit_path(@deposit), :notice => "Amount deposited successfully."
         else
@@ -30,14 +30,14 @@ class DepositsController < ApplicationController
   end
 
   def show
-    @deposit = Transaction.find(params[:id])
+    @deposit = Credit.find(params[:id])
     @user = @deposit.user
   end
 
   private
 
-  def transaction_params
-    params.require(:transaction).permit(:amount, :activity_type)
+  def credit_params
+    params.require(:credit).permit(:amount)
   end
 
   def find_user_account

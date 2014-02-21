@@ -15,14 +15,15 @@
 #  index_transactions_on_user_id  (user_id)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+class Credit < Transaction
 
-FactoryGirl.define do
-  factory :transaction do
-    activity_type 0
-    amount 10
-    user_id 1
-    description ""
-    created_at Time.zone.now
+  after_commit :update_user_balance,
+    :on => :create
+
+  private
+
+  def update_user_balance
+    user.increment!(:balance, amount)
   end
+
 end

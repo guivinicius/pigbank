@@ -17,7 +17,7 @@ feature "Withdraw" do
 
   scenario "less than your current balance" do
 
-    fill_in :transaction_amount, :with => "100.00"
+    fill_in :debit_amount, :with => "100.00"
     click_button "Continue"
     expect(page).to have_content "100.00"
 
@@ -28,13 +28,13 @@ feature "Withdraw" do
 
   scenario "more than your current balance" do
 
-    fill_in :transaction_amount, :with => "1010.00"
+    fill_in :debit_amount, :with => "1010.00"
     click_button "Continue"
     expect(page).to have_content "You can't withdraw more than your current balance."
   end
 
   scenario "with a wrong password" do
-    fill_in :transaction_amount, :with => "100.00"
+    fill_in :debit_amount, :with => "100.00"
     click_button "Continue"
 
     fill_in :password, :with => "I'm wrong!"

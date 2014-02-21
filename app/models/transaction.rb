@@ -17,47 +17,22 @@
 
 class Transaction < ActiveRecord::Base
 
-  ACTIVITY_TYPES = { :credit => 0, :debit => 1 }
-
   validates :activity_type, :amount, :user_id,
     :presence => true
 
   validates :amount,
     :numericality => { :greater_than => 0 }
 
-  validates :amount,
-    :numericality => { :less_than_or_equal_to => :current_user_balance },
-    :if => :is_debit?
-
   belongs_to :user
 
-  after_commit :update_user_balance,
-    :on => :create
-
-  def self.created_between(start_date, end_date = Date.current)
-    start_date = (Date.current - 30.days) if start_date.empty?
+  def self.created_between(start_date = "" , end_date = "")
+    start_date = Date.current - 30.days if start_date.empty?
+    end_date = Date.current if end_date.empty?
     where(:created_at => Time.zone.parse("#{start_date} 00:00:00")..Time.zone.parse("#{end_date} 23:59:59"))
   end
 
   def is_debit?
-    activity_type == ACTIVITY_TYPES[:debit]
-  end
-
-  private
-
-  def current_user_balance
-    user.balance
-  end
-
-  def update_user_balance
-
-    case activity_type
-      when ACTIVITY_TYPES[:credit]
-        user.update_attribute(:balance, current_user_balance + amount)
-      when ACTIVITY_TYPES[:debit]
-        user.update_attribute(:balance, current_user_balance - amount)
-    end
-
+    activity_type == 1
   end
 
 end
