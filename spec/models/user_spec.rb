@@ -29,4 +29,34 @@ require 'spec_helper'
 
 describe User do
 
+  let(:user) { create(:user) }
+  let(:account) { user.account }
+
+  let(:valid_args) { {:agency => account.agency, :number => account.number} }
+  let(:invalid_args) { {:agency => "", :number => ""} }
+
+  describe ".by_account" do
+
+    context 'when args are not valid' do
+      it "returns a user" do
+        expect(User.by_account(valid_args)).to eql(user)
+      end
+    end
+
+    context 'when args are valid' do
+      it "returns nil" do
+        expect(User.by_account(invalid_args)).to eql(nil)
+      end
+    end
+
+  end
+
+  describe "#balance" do
+
+    it "returns account balance" do
+      expect(user.balance).to eql(account.balance)
+    end
+
+  end
+
 end

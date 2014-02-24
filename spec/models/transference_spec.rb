@@ -39,4 +39,21 @@ describe Transference do
     expect(transference).to be_valid
   end
 
+  describe "amount validation" do
+
+    it "has to be greater than 0" do
+      transference.amount = 0
+
+      expect(transference).not_to be_valid
+    end
+
+    it "has to be less than or equal to user balance" do
+      transference.amount = 200
+
+      expect(transference).not_to be_valid
+    end
+
+  end
+
+
 end
