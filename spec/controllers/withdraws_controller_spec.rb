@@ -3,7 +3,29 @@ require 'spec_helper'
 describe WithdrawsController do
 
   login_user
+
   let(:params) { {:debit => {:amount => BigDecimal(100) }} }
+  let(:withdraw) { create(:debit, :user_id => @user.id, :amount => 10) }
+
+  describe "GET 'show'" do
+
+    before do
+      get :show, :id => withdraw.id
+    end
+
+    it "returns http success" do
+      expect(response.status).to eq(200)
+    end
+
+    it "assigns @withdraw" do
+      expect(assigns(:withdraw)).to eq(withdraw)
+    end
+
+    it "renders new template" do
+      expect(response).to render_template("show")
+    end
+
+  end
 
   describe "GET 'new'" do
 

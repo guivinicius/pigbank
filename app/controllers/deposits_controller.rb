@@ -5,9 +5,9 @@ class DepositsController < ApplicationController
   end
 
   def check
-
-    if find_user_account
-      @deposit = @user.credits.new(credit_params)
+    @user = User.find_by(params[:user])
+    if CreditService.new(@user, credit_params[:amount]).valid?
+      @deposit = Credit.new(credit_params)
     else
       redirect_to new_deposit_path, :alert => "User account not found."
     end
@@ -15,17 +15,14 @@ class DepositsController < ApplicationController
   end
 
   def create
-
-      if find_user_account
-        @deposit = @user.credits.new(credit_params)
-        if @deposit.save
-          redirect_to deposit_path(@deposit), :notice => "Amount deposited successfully."
-        else
-          redirect_to new_deposit_path, :alert => "Sorry. Something happend during the transaction of your deposit."
-        end
-      else
-        redirect_to new_deposit_path, :alert => "User account not found."
-      end
+    user = User.find_by(params[:user])
+    @credit_service = CreditService.new(user, credit_params[:amount], "Deposit")
+    if @credit_service.valid?
+      @deposit = @credit_service.credit!
+      redirect_to deposit_path(@deposit), :notice => "Amount deposited successfully."
+    else
+      redirect_to new_deposit_path, :alert => @credit_service.errors
+    end
 
   end
 
@@ -38,10 +35,6 @@ class DepositsController < ApplicationController
 
   def credit_params
     params.require(:credit).permit(:amount)
-  end
-
-  def find_user_account
-    @user = User.find_by(:agency_number => params[:agency_number], :account_number => params[:account_number])
   end
 
 end

@@ -23,7 +23,7 @@ describe Credit do
   let(:credit) { build(:credit, :user_id => user.id) }
 
   it 'is valid with valid attributes' do
-    credit.should be_valid
+    expect(credit).to be_valid
   end
 
 end

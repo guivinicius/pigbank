@@ -43,8 +43,8 @@
         </div>
       </div>
 
-      <%= hidden_field_tag :agency_number, @user.agency_number %>
-      <%= hidden_field_tag :account_number, @user.account_number %>
+      <%= hidden_field_tag "user[agency_number]", @user.agency_number %>
+      <%= hidden_field_tag "user[account_number]", @user.account_number %>
       <%= f.hidden_field :amount %>
 
       <div class="form-group">

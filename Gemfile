@@ -41,6 +41,7 @@ group :test do
   gem 'coveralls', :require => false
   gem 'simplecov', :require => false # Test coverage generator. Go to /coverage/ after running tests
   gem 'database_cleaner'
+  gem 'timecop'
 end
 
 group :development, :test do

@@ -17,13 +17,4 @@
 
 class Credit < Transaction
 
-  after_commit :update_user_balance,
-    :on => :create
-
-  private
-
-  def update_user_balance
-    user.increment!(:balance, amount)
-  end
-
 end

@@ -32,8 +32,15 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :uid, :agency_number, :account_number,
+  validates :name, :uid, :agency_number, :account_number,
     :presence => true
+
+  validates :balance,
+   :numericality => { :greater_than => 0 },
+   :on => :update
+
+  validates :uid,
+    :uniqueness => true
 
   has_many :transactions,
     :dependent => :destroy
@@ -41,5 +48,9 @@ class User < ActiveRecord::Base
   has_many :debits, -> { where(:activity_type => 1) }
 
   has_many :credits, -> { where(:activity_type => 0) }
+
+  has_many :transferences,
+    :foreign_key => :from_user_id,
+    :dependent => :destroy
 
 end

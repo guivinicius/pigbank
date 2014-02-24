@@ -3,8 +3,30 @@ require 'spec_helper'
 describe DepositsController do
 
   let(:user) { create(:user) }
-  let(:valid_params) { { :agency_number => user.agency_number.to_s, :account_number => user.account_number.to_s, :credit => { :amount => BigDecimal("100.00") } } }
-  let(:invalid_params) { { :agency_number => "2222", :account_number => "11111", :credit => {:amount => "100.00"} } }
+  let(:valid_params) { { :user => {:agency_number => user.agency_number.to_s, :account_number => user.account_number.to_s}, :credit => { :amount => BigDecimal("100.00") } } }
+  let(:invalid_params) { { :user => { :agency_number => "2222", :account_number => "11111"}, :credit => {:amount => "100.00"} } }
+
+  let(:deposit) { create(:credit, :user_id => user.id, :amount => 10) }
+
+  describe "GET 'show'" do
+
+    before do
+      get :show, :id => deposit.id
+    end
+
+    it "returns http success" do
+      expect(response.status).to eq(200)
+    end
+
+    it "assigns @deposit" do
+      expect(assigns(:deposit)).to eq(deposit)
+    end
+
+    it "renders new template" do
+      expect(response).to render_template("show")
+    end
+
+  end
 
   describe "GET 'new'" do
 
@@ -28,13 +50,7 @@ describe DepositsController do
 
   describe "POST 'check'" do
 
-    context "to a nonexistent account" do
-
-      it "checks the account existence" do
-        expect(User).to receive(:find_by).with(:agency_number => invalid_params[:agency_number], :account_number => invalid_params[:account_number])
-        .and_return(nil)
-        post :check, invalid_params
-      end
+    context "when account dont exist" do
 
       it "renders the new template" do
         post :check, invalid_params
@@ -43,23 +59,16 @@ describe DepositsController do
 
     end
 
-    context "to a existent account" do
+    context "when account exists" do
 
       it "returns http success" do
         post :check, valid_params
         expect(response.status).to eq(200)
       end
 
-      it "checks the account existence" do
-        expect(User).to receive(:find_by).with(:agency_number => valid_params[:agency_number], :account_number => valid_params[:account_number])
-        .and_return(user)
-
-        post :check, valid_params
-      end
-
       it "assigns @deposit" do
         post :check, valid_params
-        expect(assigns(:deposit)).to be_a_new(Transaction).with(valid_params[:credit])
+        expect(assigns(:deposit)).to be_a_new(Credit).with(valid_params[:credit])
       end
 
       it "renders the new template" do
@@ -73,14 +82,7 @@ describe DepositsController do
 
   describe "POST 'create'" do
 
-    context "with valid_params" do
-
-      it "checks the account existence" do
-        expect(User).to receive(:find_by).with(:agency_number => valid_params[:agency_number], :account_number => valid_params[:account_number])
-        .and_return(user)
-
-        post :create, valid_params
-      end
+    context "when params are valid" do
 
       it "create a new deposit" do
         expect{
@@ -106,14 +108,7 @@ describe DepositsController do
 
     context "with invalid params" do
 
-      it "checks the account existence" do
-        expect(User).to receive(:find_by).with(:agency_number => invalid_params[:agency_number], :account_number => invalid_params[:account_number])
-        .and_return(nil)
-
-        post :create, invalid_params
-      end
-
-      it "create a new deposit" do
+      it "don't create a new deposit" do
         expect{
           post :create, invalid_params
         }.not_to change(Credit, :count).by(1)

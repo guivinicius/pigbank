@@ -26,12 +26,12 @@ feature "Sign up" do
 
     visit new_user_registration_path
 
-    fill_in :user_name, :with => "Guilherme Vinicius Moreira"
-    fill_in :user_uid, :with => "25751508254"
-    fill_in :user_email, :with => "gui.vinicius@gmail.com"
+    fill_in :user_name, :with => user.name
+    fill_in :user_uid, :with => user.uid
+    fill_in :user_email, :with => user.email
 
-    fill_in :user_agency_number, :with => "22221"
-    fill_in :user_account_number, :with => "313234"
+    fill_in :user_agency_number, :with => user.agency_number
+    fill_in :user_account_number, :with => user.account_number
 
     fill_in :user_password, :with => "12345678"
     fill_in :user_password_confirmation, :with => "12345678"

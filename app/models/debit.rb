@@ -20,17 +20,10 @@ class Debit < Transaction
   validates :amount,
     :numericality => { :less_than_or_equal_to => :current_user_balance }
 
-  after_commit :update_user_balance,
-    :on => :create
-
   private
 
   def current_user_balance
     user.balance
-  end
-
-  def update_user_balance
-    user.decrement!(:balance, amount)
   end
 
 end

@@ -10,6 +10,10 @@ Pigbank::Application.routes.draw do
     post :check, :on => :collection
   end
 
+  resources :transferences, :only => [:new, :create, :show] do
+    post :check, :on => :collection
+  end
+
   resource :balance, :only => [:show]
 
   resource :statement, :only => [:new, :show]

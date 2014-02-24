@@ -33,12 +33,12 @@
 FactoryGirl.define do
   factory :user do
     name "Guilherme Vinicius Moreira"
-    uid "25751508254"
-    email "gui.vinicius@gmail.com"
-    agency_number "23213"
-    account_number "213453"
+    sequence(:uid, 1) { |n| "33224411#{n}" }
+    sequence(:email, 1) { |n| "person#{n}@example.com" }
+    sequence(:agency_number, 1) { |n| "2233#{n}" }
+    sequence(:account_number, 1) { |n| "32123#{n}" }
     password "12345678"
     password_confirmation "12345678"
-    balance 0
+    balance 100
   end
 end

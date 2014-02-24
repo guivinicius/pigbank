@@ -26,7 +26,7 @@
         <div class="col-xs-4">
           <%= link_to "Deposit", new_deposit_path, :class => "main-button" %>
           <%= link_to "Withdraw", new_withdraw_path, :class => "main-button", :disabled => !user_signed_in? %>
-          <%= link_to "Transference", "#", :class => "main-button", :disabled => !user_signed_in? %>
+          <%= link_to "Transference", new_transference_path, :class => "main-button", :disabled => !user_signed_in? %>
           <%= link_to "View Balance", balance_path, :class => "main-button", :disabled => !user_signed_in? %>
           <%= link_to "View Statement", new_statement_path, :class => "main-button", :disabled => !user_signed_in? %>
         </div>

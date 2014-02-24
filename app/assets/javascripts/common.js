@@ -13,6 +13,6 @@ $('a#myOwnAccountLink').click(function(e){
   agency   = obj.attr('data-agency-number'),
   account  = obj.attr('data-account-number');
 
-  $('input#agency_number').val(agency);
-  $('input#account_number').val(account);
+  $('input#user_agency_number').val(agency);
+  $('input#user_account_number').val(account);
 });
