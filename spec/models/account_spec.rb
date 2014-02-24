@@ -19,4 +19,26 @@
 require 'spec_helper'
 
 describe Account do
+
+  let(:account) { build(:account) }
+
+  it 'is valid with valid attributes' do
+    expect(account).to be_valid
+  end
+
+  it "does not allow negative balance" do
+    account.balance = -10
+
+    expect(account).not_to be_valid
+  end
+
+  describe "#number" do
+
+    it "has to be unique on agency" do
+      account.save
+      expect(build(:account, :agency => account.agency, :number => account.number)).not_to be_valid
+    end
+
+  end
+
 end

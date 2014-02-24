@@ -19,8 +19,7 @@
 class Account < ActiveRecord::Base
 
   validates :balance,
-   :numericality => { :greater_than_or_equal => 0 },
-   :on => :update
+   :numericality => { :greater_than_or_equal_to => 0 }
 
   validates :agency, :number,
     :numericality => { :only_integer => true }
