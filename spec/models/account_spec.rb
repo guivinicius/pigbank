@@ -20,7 +20,8 @@ require 'spec_helper'
 
 describe Account do
 
-  let(:account) { build(:account) }
+  let(:user) { create(:user) }
+  let(:account) { user.account }
 
   it 'is valid with valid attributes' do
     expect(account).to be_valid

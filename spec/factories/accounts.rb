@@ -23,6 +23,5 @@ FactoryGirl.define do
     sequence(:agency, 1) { |n| "2233#{n}" }
     sequence(:number, 1) { |n| "32123#{n}" }
     balance 0
-    user_id 1
   end
 end

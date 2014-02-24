@@ -5,6 +5,7 @@ gem 'rails', '4.0.3'
 
 # Database
 gem 'pg'
+gem 'foreigner'
 
 # Assets
 gem 'sass-rails', '~> 4.0.0'
@@ -35,6 +36,9 @@ group :development do
   # Debugging
   gem 'better_errors'       # Web UI to debug exceptions. Go to /__better_errors to access the latest one
   gem 'binding_of_caller'  # Retrieve the binding of a method's caller in MRI Ruby >= 1.9.2
+
+  # Migration helper
+  gem 'immigrant'
 end
 
 group :test do

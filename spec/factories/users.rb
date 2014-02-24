@@ -35,6 +35,9 @@ FactoryGirl.define do
     password "12345678"
     password_confirmation "12345678"
 
-    account
+    after(:create) do |user|
+      create(:account, :user => user)
+    end
+
   end
 end
