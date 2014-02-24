@@ -34,7 +34,7 @@ feature "Deposit" do
 
     click_button "Continue"
 
-    expect(page).to have_content "User account not found."
+    expect(page).to have_content "User can't be blank"
   end
 
 end
