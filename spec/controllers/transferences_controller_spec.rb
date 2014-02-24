@@ -2,25 +2,35 @@ require 'spec_helper'
 
 describe TransferencesController do
 
-  login_user(:balance => 100)
+  login_user
+  let(:account_1) { @user.account }
 
-  let(:user_2) { create(:user, :balance => 200) }
+  let(:user_2) { create(:user) }
+  let(:account_2) { user_2.account }
 
   let(:valid_params) do
     {
-      :user => { :agency_number => user_2.agency_number, :account_number => user_2.account_number },
+      :account => { :agency => account_2.agency, :number => account_2.number },
       :transference => { :amount =>  BigDecimal(50) }
     }
   end
 
   let(:invalid_params) do
     {
-      :user => { :agency_number => "123", :account_number => "231232" },
+      :account => { :agency => "123", :number => "231232" },
       :transference => { :amount => "0" }
     }
   end
 
   let(:transference) { create(:transference, :from_user => @user, :to_user => user_2, :amount => 50) }
+
+  before do
+    account_1.balance = 100
+    account_1.save
+
+    account_2.balance = 200
+    account_2.save
+  end
 
   describe "GET 'show'" do
 

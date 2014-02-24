@@ -15,9 +15,6 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  balance                :decimal(10, 2)   default(0.0)
-#  agency_number          :integer
-#  account_number         :integer
 #  uid                    :string(255)
 #  name                   :string(255)
 #
@@ -32,17 +29,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :name, :uid, :agency_number, :account_number,
+  validates :name, :uid,
     :presence => true
-
-  validates :balance,
-   :numericality => { :greater_than => 0 },
-   :on => :update
 
   validates :uid,
     :uniqueness => true
 
   has_many :transactions,
+    :dependent => :destroy
+
+  has_one :account,
     :dependent => :destroy
 
   has_many :debits, -> { where(:activity_type => 1) }
@@ -52,5 +48,15 @@ class User < ActiveRecord::Base
   has_many :transferences,
     :foreign_key => :from_user_id,
     :dependent => :destroy
+
+  def self.by_account(args = {})
+    joins(:account).where(:accounts => args).first
+  end
+
+  accepts_nested_attributes_for :account
+
+  def balance
+    account.balance
+  end
 
 end

@@ -19,7 +19,7 @@ require 'spec_helper'
 
 describe Credit do
 
-  let(:user) { create(:user, :balance => 100.00) }
+  let(:user) { create(:user) }
   let(:credit) { build(:credit, :user_id => user.id) }
 
   it 'is valid with valid attributes' do

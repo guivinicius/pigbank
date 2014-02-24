@@ -15,9 +15,6 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  balance                :decimal(10, 2)   default(0.0)
-#  agency_number          :integer
-#  account_number         :integer
 #  uid                    :string(255)
 #  name                   :string(255)
 #

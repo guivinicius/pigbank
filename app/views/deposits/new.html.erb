@@ -10,22 +10,22 @@
       <% if user_signed_in? %>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <%= link_to "my own account", "#", :id => "myOwnAccountLink", :data => { :agency_number => current_user.agency_number, :account_number => current_user.account_number } %>
+            <%= link_to "my own account", "#", :id => "myOwnAccountLink", :data => { :account_agency => current_user.account.agency, :account_number => current_user.account.number } %>
           </div>
         </div>
       <% end %>
 
       <div class="form-group">
-        <%= label_tag "user[agency_number]", "Agency", :class => "col-sm-2 control-label" %>
+        <%= label_tag "account[agency]", "Agency", :class => "col-sm-2 control-label" %>
         <div class="col-xs-2">
-          <%= text_field_tag "user[agency_number]", nil, :class => "form-control", :required => true %>
+          <%= text_field_tag "account[agency]", nil, :class => "form-control", :required => true %>
         </div>
       </div>
 
       <div class="form-group">
-        <%= label_tag "user[account_number]", "Account", :class => "col-sm-2 control-label" %>
+        <%= label_tag "account[number]", "Account", :class => "col-sm-2 control-label" %>
         <div class="col-xs-3">
-          <%= text_field_tag "user[account_number]", nil, :class => "form-control", :required => true %>
+          <%= text_field_tag "account[number]", nil, :class => "form-control", :required => true %>
         </div>
       </div>
 

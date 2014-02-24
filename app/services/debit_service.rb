@@ -15,7 +15,7 @@ class DebitService
 
     ActiveRecord::Base.transaction do
       @debit.save
-      @debit.user.decrement!(:balance, @debit.amount)
+      @debit.user.account.decrement!(:balance, @debit.amount)
     end if valid?
 
     @debit

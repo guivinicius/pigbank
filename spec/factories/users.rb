@@ -15,9 +15,6 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  balance                :decimal(10, 2)   default(0.0)
-#  agency_number          :integer
-#  account_number         :integer
 #  uid                    :string(255)
 #  name                   :string(255)
 #
@@ -35,10 +32,9 @@ FactoryGirl.define do
     name "Guilherme Vinicius Moreira"
     sequence(:uid, 1) { |n| "33224411#{n}" }
     sequence(:email, 1) { |n| "person#{n}@example.com" }
-    sequence(:agency_number, 1) { |n| "2233#{n}" }
-    sequence(:account_number, 1) { |n| "32123#{n}" }
     password "12345678"
     password_confirmation "12345678"
-    balance 100
+
+    account
   end
 end

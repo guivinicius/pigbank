@@ -14,8 +14,11 @@
     </header>
 
     <main role="main">
-       <%= render 'layouts/messages' %>
-       <%= yield %>
+      <% flash.each do |type, msg| %>
+        <%= render :partial => 'layouts/messages', :locals => { :type => type, :msg => msg} %>
+      <% end %>
+
+      <%= yield %>
     </main>
 
     <%= javascript_include_tag "application" %>

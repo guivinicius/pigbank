@@ -2,8 +2,9 @@ require "spec_helper"
 
 feature "Sign in" do
 
-  scenario "a existing account" do
+  scenario "a existing user" do
     @user = create(:user)
+    @account = create(:account, :user => @user)
 
     visit new_user_session_path
 

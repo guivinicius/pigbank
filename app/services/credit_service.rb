@@ -11,7 +11,7 @@ class CreditService
 
     ActiveRecord::Base.transaction do
       @credit.save
-      @credit.user.increment!(:balance, @credit.amount)
+      @credit.user.account.increment!(:balance, @credit.amount)
     end if valid?
 
     @credit

@@ -19,8 +19,14 @@ require 'spec_helper'
 
 describe Debit do
 
-  let(:user) { create(:user, :balance => 100.00) }
+  let(:user) { create(:user) }
+  let(:account) { user.account }
   let(:debit) { build(:debit, :user_id => user.id) }
+
+  before do
+    account.balance = 100
+    account.save
+  end
 
   it 'is valid with valid attributes' do
     debit.should be_valid

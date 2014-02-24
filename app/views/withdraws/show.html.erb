@@ -11,8 +11,8 @@
 
       <p>From: <%= current_user.name %></p>
       <p>UID: <%= current_user.uid %></p>
-      <p>Agency: <%= current_user.agency_number %></p>
-      <p>Account: <%= current_user.account_number %></p>
+      <p>Agency: <%= current_user.account.agency %></p>
+      <p>Account: <%= current_user.account.number %></p>
       <hr>
       <p>Amount: <%= number_to_currency(@withdraw.amount) %></p>
       <p>Current Balance: <%= number_to_currency(current_user.balance) %></p>

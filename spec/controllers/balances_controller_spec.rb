@@ -6,7 +6,10 @@ describe BalancesController do
 
   describe "GET 'show'" do
 
-    before { get :show }
+    before do
+      create(:account, :user => @user)
+      get :show
+    end
 
     it "returns http success" do
       expect(response.status).to eq(200)

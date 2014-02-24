@@ -1,12 +1,16 @@
-<% flash.each do |name, msg| %>
-  <div class="alert alert-<%= name == :notice ? "success" : "danger" %>">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <% if msg.is_a?(String) %>
-      <%= content_tag :div, msg, :id => "flash_#{name}" %>
-    <% else %>
-      <% msg.each do |txt| %>
-        <%= content_tag :div, txt, :id => "flash_#{name}" %>
+<div class="alert alert-<%= type == :notice ? "success" : "danger" %>">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <% if msg.is_a?(String) %>
+    <%= content_tag :div, :id => "flash_#{type}" do %>
+      <span class="glyphicon glyphicon-<%= type == :notice ? "ok" : "remove" %>"></span>
+      <%= msg %>
+    <% end %>
+  <% else %>
+    <% msg.each do |txt| %>
+      <%= content_tag :div, :id => "flash_#{type}" do %>
+        <span class="glyphicon glyphicon-<%= type == :notice ? "ok" : "remove" %>"></span>
+        <%= txt %>
       <% end %>
     <% end %>
-  </div>
-<% end %>
+  <% end %>
+</div>

@@ -2,12 +2,14 @@ require "spec_helper"
 
 feature "View Statement" do
 
-  given(:user) { create(:user, :balance => 50) }
+  given(:user) { create(:user) }
 
   background do
+    @credit = CreditService.new(user, 100).credit!
+    @credit.created_at = (Time.zone.now - 10.days)
+    @credit.save
 
-    @credit = create(:credit, :user_id => user.id, :amount => 100, :created_at => Time.zone.now - 10.days)
-    @debit = create(:debit,  :user_id => user.id, :amount => 50, :created_at => Time.zone.now)
+    @debit = DebitService.new(user, 50).debit!
 
     visit new_user_session_path
 

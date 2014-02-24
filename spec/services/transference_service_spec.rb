@@ -2,11 +2,22 @@ require "spec_helper"
 
 describe TransferenceService do
 
-  let(:user_1) { create(:user, :balance => 200) }
-  let(:user_2) { create(:user, :balance => 200) }
+  let(:user_1) { create(:user) }
+  let(:account_1) { user_1.account }
+
+  let(:user_2) { create(:user) }
+  let(:account_2) { user_2.account }
 
   let(:valid_transference_service) { TransferenceService.new(user_1, user_2, 100) }
   let(:invalid_transference_service) { TransferenceService.new(user_1, user_2, 0) }
+
+  before do
+    account_1.balance = 200
+    account_1.save
+
+    account_2.balance = 200
+    account_2.save
+  end
 
   describe "#transfer!" do
 
@@ -107,8 +118,8 @@ describe TransferenceService do
   describe "#has_enought_balance?" do
 
     it "adds a error on balance" do
-      user_1.balance = 100
-      user_1.save
+      account_1.balance = 100
+      account_1.save
 
       expect(valid_transference_service.errors).to have(1).error_on(:balance)
     end

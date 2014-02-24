@@ -3,6 +3,7 @@ require 'spec_helper'
 describe WithdrawsController do
 
   login_user
+  let(:account) { @user.account }
 
   let(:params) { {:debit => {:amount => BigDecimal(100) }} }
   let(:withdraw) { create(:debit, :user => @user, :amount => 10) }
@@ -10,6 +11,8 @@ describe WithdrawsController do
   describe "GET 'show'" do
 
     before do
+      account.balance = 100
+      account.save
       get :show, :id => withdraw.id
     end
 
@@ -52,8 +55,8 @@ describe WithdrawsController do
     context "with amount less than user balance" do
 
       before do
-        @user.balance = 1000.00
-        @user.save
+        account.balance = 1000.00
+        account.save
       end
 
       it "returns http success" do
@@ -71,8 +74,8 @@ describe WithdrawsController do
     context "with amount higher than user balance" do
 
       it "redirects to Withdraw new" do
-        @user.balance = 10.00
-        @user.save
+        account.balance = 10.00
+        account.save
         post :check, params
         expect(response).to redirect_to(new_withdraw_path)
       end
@@ -84,8 +87,8 @@ describe WithdrawsController do
   describe "POST 'create'" do
 
     before do
-      @user.balance = 1000.00
-      @user.save
+      account.balance = 1000.00
+      account.save
     end
 
     context "with right password" do

@@ -19,9 +19,16 @@ require 'spec_helper'
 
 describe Transaction do
 
-  let(:user) { create(:user, :balance => 100.00) }
+  let(:user) { create(:user) }
+  let(:account) { user.account }
+
   let(:transaction) { build(:transaction, :user_id => user.id) }
   let(:transaction2) { build(:transaction, :user_id => user.id, :created_at => Time.zone.now - 10.days) }
+
+  before do
+    account.balance = 100
+    account.save
+  end
 
   it 'is valid with valid attributes' do
     transaction.should be_valid

@@ -3,6 +3,8 @@ require "spec_helper"
 describe CreditService do
 
   let(:user) { create(:user) }
+  let(:account) { user.account }
+
   let(:amount) { 100 }
 
   let(:valid_credit_service) { CreditService.new(user, amount) }

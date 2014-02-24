@@ -14,7 +14,9 @@
     </header>
 
     <main role="main">
-       <%= render 'layouts/messages' %>
+      <% flash.each do |type, msg| %>
+        <%= render :partial => 'layouts/messages', :locals => { :type => type, :msg => msg} %>
+      <% end %>
 
        <div class="page-header">
         <h1>Welcome to PigBank</h1>

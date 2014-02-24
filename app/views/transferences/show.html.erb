@@ -9,10 +9,10 @@
     <div class="well well-sm">
       <h5>Transference Receipt <small><%= "##{@transference.id}" %></small></h5>
 
-      <p>To: <%= @user.name %></p>
-      <p>UID: <%= @user.uid %></p>
-      <p>Agency: <%= @user.agency_number %></p>
-      <p>Account: <%= @user.account_number %></p>
+      <p>To: <%= @to_user.name %></p>
+      <p>UID: <%= @to_user.uid %></p>
+      <p>Agency: <%= @to_user.account.agency %></p>
+      <p>Account: <%= @to_user.account.number %></p>
       <hr>
       <p>Amount: <%= number_to_currency(@transference.amount) %></p>
       <hr>

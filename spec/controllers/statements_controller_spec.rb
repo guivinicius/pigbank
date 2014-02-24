@@ -22,6 +22,10 @@ describe StatementsController do
 
   describe "GET 'show'" do
 
+    before do
+      create(:account, :user => @user)
+    end
+
     context "with empty dates" do
 
       before do

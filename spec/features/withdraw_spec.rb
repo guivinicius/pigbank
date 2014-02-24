@@ -2,9 +2,13 @@ require "spec_helper"
 
 feature "Withdraw" do
 
-  given(:user) { create(:user, :balance => 1000.00) }
+  given(:user) { create(:user) }
+  given(:account) { user.account }
 
   background do
+    account.balance = 1000
+    account.save
+
     visit new_user_session_path
 
     fill_in :user_uid, :with => user.uid

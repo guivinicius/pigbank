@@ -7,7 +7,7 @@ class TransferencesController < ApplicationController
 
   def check
 
-    @user = User.find_by(params[:user])
+    @user = User.by_account(params[:account])
     transference_service = TransferenceService.new(current_user, @user, transference_params[:amount])
     if transference_service.valid?
       @transference = Transference.new(transference_params)
@@ -20,7 +20,7 @@ class TransferencesController < ApplicationController
 
   def create
 
-    user = User.find_by(params[:user])
+    user = User.by_account(params[:account])
     transference_service = TransferenceService.new(current_user, user, transference_params[:amount])
     if transference_service.valid?
       transference = transference_service.transfer!
@@ -33,7 +33,8 @@ class TransferencesController < ApplicationController
 
   def show
     @transference = Transference.find(params[:id])
-    @user = @transference.from_user
+    @from_user = @transference.from_user
+    @to_user = @transference.to_user
   end
 
   private

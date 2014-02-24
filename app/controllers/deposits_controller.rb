@@ -5,18 +5,18 @@ class DepositsController < ApplicationController
   end
 
   def check
-    @user = User.find_by(params[:user])
+    @user = User.by_account(params[:account])
     credit_service = CreditService.new(@user, credit_params[:amount])
     if credit_service.valid?
       @deposit = Credit.new(credit_params)
     else
-      redirect_to new_deposit_path, :alert => "User account not found."
+      redirect_to new_deposit_path, :alert => credit_service.errors.full_messages
     end
 
   end
 
   def create
-    user = User.find_by(params[:user])
+    user = User.by_account(params[:account])
     credit_service = CreditService.new(user, credit_params[:amount], "Deposit")
     if credit_service.valid?
       @deposit = credit_service.credit!

@@ -2,10 +2,19 @@ require "spec_helper"
 
 feature "Transference" do
 
-  given(:user_1) { create(:user, :balance => 100.00) }
-  given(:user_2) { create(:user, :balance => 100.00) }
+  given(:user_1) { create(:user) }
+  given(:account_1) { user_1.account }
+
+  given(:user_2) { create(:user) }
+  given(:account_2) { user_2.account }
 
   background do
+    account_1.balance = 100
+    account_1.save
+
+    account_2.balance = 100
+    account_2.save
+
     visit new_user_session_path
 
     fill_in :user_uid, :with => user_1.uid
@@ -18,8 +27,8 @@ feature "Transference" do
 
   scenario "to a different user" do
 
-    fill_in :user_agency_number, :with => user_2.agency_number
-    fill_in :user_account_number, :with => user_2.account_number
+    fill_in :account_agency, :with => user_2.account.agency
+    fill_in :account_number, :with => user_2.account.number
     fill_in :transference_amount, :with => "50.00"
 
     click_button "Continue"
@@ -33,8 +42,8 @@ feature "Transference" do
 
   scenario "to yourself" do
 
-    fill_in :user_agency_number, :with => user_1.agency_number
-    fill_in :user_account_number, :with => user_1.account_number
+    fill_in :account_agency, :with => user_1.account.agency
+    fill_in :account_number, :with => user_1.account.number
     fill_in :transference_amount, :with => "50.00"
 
     click_button "Continue"

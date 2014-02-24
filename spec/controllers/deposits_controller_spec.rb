@@ -3,8 +3,10 @@ require 'spec_helper'
 describe DepositsController do
 
   let(:user) { create(:user) }
-  let(:valid_params) { { :user => {:agency_number => user.agency_number.to_s, :account_number => user.account_number.to_s}, :credit => { :amount => BigDecimal("100.00") } } }
-  let(:invalid_params) { { :user => { :agency_number => "2222", :account_number => "11111"}, :credit => {:amount => "100.00"} } }
+  let(:account) { user.account }
+
+  let(:valid_params) { { :account => {:agency => account.agency.to_s, :number => account.number.to_s}, :credit => { :amount => BigDecimal("100.00") } } }
+  let(:invalid_params) { { :account => { :agency => "2222", :number => "11111"}, :credit => {:amount => "100.00"} } }
 
   let(:deposit) { create(:credit, :user_id => user.id, :amount => 10) }
 

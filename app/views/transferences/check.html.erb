@@ -25,14 +25,14 @@
       <div class="form-group">
         <%= label_tag :agency_number, "Agency", :class => "col-sm-2 control-label" %>
         <div class="col-xs-2">
-          <div class="form-control"><%= @user.agency_number %></div>
+          <div class="form-control"><%= @user.account.agency %></div>
         </div>
       </div>
 
       <div class="form-group">
         <%= label_tag :account_number, "Account", :class => "col-sm-2 control-label" %>
         <div class="col-xs-3">
-          <div class="form-control"><%= @user.account_number %></div>
+          <div class="form-control"><%= @user.account.number %></div>
         </div>
       </div>
 
@@ -43,8 +43,8 @@
         </div>
       </div>
 
-      <%= hidden_field_tag "user[agency_number]", @user.agency_number %>
-      <%= hidden_field_tag "user[account_number]", @user.account_number %>
+      <%= hidden_field_tag "account[agency]", @user.account.agency %>
+      <%= hidden_field_tag "account[number]", @user.account.number %>
       <%= f.hidden_field :amount %>
 
       <div class="form-group">

@@ -2,11 +2,18 @@ require "spec_helper"
 
 describe DebitService do
 
-  let(:user) { create(:user, :balance => 200) }
+  let(:user) { create(:user) }
+  let(:account) { user.account }
+
   let(:amount) { 100 }
 
   let(:valid_debit_service) { DebitService.new(user, amount) }
   let(:invalid_debit_service) { DebitService.new(user, 0) }
+
+  before do
+    account.balance = 200
+    account.save
+  end
 
   describe "#debit!" do
 
