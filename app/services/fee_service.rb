@@ -1,18 +1,9 @@
 class FeeService
 
-  def initialize(user, time, amount)
-    @user = user
+  def initialize(amount, time = Time.zone.now)
     @time = time
-    @amount = amount
+    @amount = BigDecimal(amount)
     @fee = BigDecimal(5)
-  end
-
-  def charge!
-
-    ActiveRecord::Base.transaction do
-      DebitService.new(@user, @fee, "Transference Fee").debit!
-    end
-
   end
 
   def calculate

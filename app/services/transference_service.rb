@@ -18,9 +18,15 @@ class TransferenceService
 
     ActiveRecord::Base.transaction do
       @transference.save
+
+      # Debiting the amout and fee from_user
       DebitService.new(@from_user, @amount, @description).debit!
+      fee = FeeService.new(@amount, @transference.created_at).calculate
+      DebitService.new(@from_user, fee, "Transference Fee").debit!
+
+      # Crediting the amount in to_user
       CreditService.new(@to_user, @amount, @description).credit!
-      FeeService.new(@from_user, @transference.created_at, @amount).charge!
+
     end if valid?
 
     @transference
@@ -38,7 +44,9 @@ class TransferenceService
 
   def has_enought_balance?
 
-    if (@amount + FeeService.new(@from_user, Time.zone.now, @amount).calculate) > @from_user.balance
+    fee = FeeService.new(@amount, Time.zone.now).calculate
+
+    if (@amount + fee) > @from_user.balance
       errors.add(:balance, "is not enought.")
     end
 

@@ -11,6 +11,7 @@ class TransferencesController < ApplicationController
     transference_service = TransferenceService.new(current_user, @user, transference_params[:amount])
     if transference_service.valid?
       @transference = Transference.new(transference_params)
+      @fee = FeeService.new(transference_params[:amount], Time.zone.now).calculate
     else
       redirect_to new_transference_path, :alert => transference_service.errors.full_messages
     end

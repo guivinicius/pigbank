@@ -38,8 +38,8 @@
 
       <div class="form-group">
         <%= f.label :amount, nil, :class => "col-sm-2 control-label" %>
-        <div class="col-xs-3">
-          <div class="form-control"><%= number_to_currency(@transference.amount) %></div>
+        <div class="col-xs-6">
+          <div class="form-control"><%= "#{number_to_currency(@transference.amount)} + #{number_to_currency(@fee)} (fee)" %></div>
         </div>
       </div>
 
