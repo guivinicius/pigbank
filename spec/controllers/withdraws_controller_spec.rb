@@ -5,7 +5,7 @@ describe WithdrawsController do
   login_user
 
   let(:params) { {:debit => {:amount => BigDecimal(100) }} }
-  let(:withdraw) { create(:debit, :user_id => @user.id, :amount => 10) }
+  let(:withdraw) { create(:debit, :user => @user, :amount => 10) }
 
   describe "GET 'show'" do
 
@@ -114,10 +114,10 @@ describe WithdrawsController do
 
     context "with wrong password" do
 
-      it "creates a new debit" do
+      it "don't create a new debit" do
         expect {
           post :create, params.merge({:password => "112"})
-        }.not_to change(Debit, :count).by(1)
+        }.not_to change(Debit, :count)
       end
 
       it "redirects to Withdraw new" do

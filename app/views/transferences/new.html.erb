@@ -1,0 +1,40 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    Transfering to
+  </div>
+
+  <div class="panel-body">
+    <%= form_for @transference, :url => check_transferences_path, :html => {:class => "form-horizontal"} do |f| -%>
+
+      <div class="form-group">
+        <%= label_tag "user[agency_number]", "Agency", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-2">
+          <%= text_field_tag "user[agency_number]", nil, :class => "form-control", :required => true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag "user[account_number]", "Account", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= text_field_tag "user[account_number]", nil, :class => "form-control", :required => true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :amount, nil, :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <%= f.text_field :amount, :class => "form-control price", :required => true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit "Continue", :class => "btn btn-success" %>
+        </div>
+      </div>
+
+    <% end  %>
+  </div>
+
+</div>

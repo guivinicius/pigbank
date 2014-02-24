@@ -1,8 +1,12 @@
 <% flash.each do |name, msg| %>
-  <% if msg.is_a?(String) %>
-    <div class="alert alert-<%= name == :notice ? "success" : "danger" %>">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <div class="alert alert-<%= name == :notice ? "success" : "danger" %>">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <% if msg.is_a?(String) %>
       <%= content_tag :div, msg, :id => "flash_#{name}" %>
-    </div>
-  <% end %>
+    <% else %>
+      <% msg.each do |txt| %>
+        <%= content_tag :div, txt, :id => "flash_#{name}" %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>

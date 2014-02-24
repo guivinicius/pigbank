@@ -30,7 +30,7 @@ feature "Withdraw" do
 
     fill_in :debit_amount, :with => "1010.00"
     click_button "Continue"
-    expect(page).to have_content "You can't withdraw more than your current balance."
+    expect(page).to have_content "Amount must be less than or equal to"
   end
 
   scenario "with a wrong password" do
@@ -39,7 +39,7 @@ feature "Withdraw" do
 
     fill_in :password, :with => "I'm wrong!"
     click_button "Withdraw"
-    expect(page).to have_content "Wrong password."
+    expect(page).to have_content "Password is wrong."
   end
 
 end

@@ -1,0 +1,60 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    Check the account information
+  </div>
+
+  <div class="panel-body">
+
+    <%= form_for @transference, :url => transferences_path, :html => {:class => "form-horizontal"} do |f| -%>
+
+      <div class="form-group">
+        <%= label_tag :name, "Name", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-6">
+          <div class="form-control"><%= @user.name %></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :uid, "UID", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-6">
+          <div class="form-control"><%= @user.uid %></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :agency_number, "Agency", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-2">
+          <div class="form-control"><%= @user.agency_number %></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :account_number, "Account", :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <div class="form-control"><%= @user.account_number %></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :amount, nil, :class => "col-sm-2 control-label" %>
+        <div class="col-xs-3">
+          <div class="form-control"><%= number_to_currency(@transference.amount) %></div>
+        </div>
+      </div>
+
+      <%= hidden_field_tag "user[agency_number]", @user.agency_number %>
+      <%= hidden_field_tag "user[account_number]", @user.account_number %>
+      <%= f.hidden_field :amount %>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit "Transfer", :class => "btn btn-success" %>
+          <%= link_to "Cancel", root_path, :class => "btn btn-warning" %>
+        </div>
+      </div>
+
+    <% end  %>
+  </div>
+
+</div>

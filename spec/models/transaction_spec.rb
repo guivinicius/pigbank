@@ -74,4 +74,48 @@ describe Transaction do
 
   end
 
+  describe "#is_debit?" do
+
+    context "when activity_type is 1" do
+
+      it "returns true" do
+        transaction.activity_type = 1
+        expect(transaction.is_debit?).to eq(true)
+      end
+
+    end
+
+    context "when activity_type is 0" do
+
+      it "returns true" do
+        transaction.activity_type = 0
+        expect(transaction.is_debit?).to eq(false)
+      end
+
+    end
+
+  end
+
+  describe "#is_credit?" do
+
+    context "when activity_type is 0" do
+
+      it "returns true" do
+        transaction.activity_type = 0
+        expect(transaction.is_credit?).to eq(true)
+      end
+
+    end
+
+    context "when activity_type is 1" do
+
+      it "returns true" do
+        transaction.activity_type = 1
+        expect(transaction.is_credit?).to eq(false)
+      end
+
+    end
+
+  end
+
 end

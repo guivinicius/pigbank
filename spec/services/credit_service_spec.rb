@@ -72,9 +72,6 @@ describe CreditService do
 
   describe "#errors?" do
 
-    it "does something" do
-
-    end
     context "when attributes are valid" do
       it "returns a empty array" do
         expect(valid_credit_service.errors).not_to have(1).error_on(:amount)
