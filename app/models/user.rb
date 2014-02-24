@@ -33,7 +33,9 @@ class User < ActiveRecord::Base
     :presence => true
 
   validates :uid,
-    :uniqueness => true
+    :uniqueness => true,
+    :format => { :with => /\A\S[0-9]+\z/},
+    :length => { :in => 6..15 }
 
   has_many :transactions,
     :dependent => :destroy

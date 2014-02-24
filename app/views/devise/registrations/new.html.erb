@@ -6,17 +6,28 @@
 
   <h2 class="form-signin-heading">Sign up</h2>
 
-  <%= f.text_field :name, :class=> "form-control first", :autofocus => true, :placeholder => "Name" %>
-  <%= f.text_field :uid, :class=> "form-control middle", :placeholder => "UID" %>
-  <%= f.email_field :email, :class=> "form-control middle", :placeholder => "Email" %>
+  <%= f.text_field :name, :class=> "form-control first", :autofocus => true, :placeholder => "Name", :rel => "popover",
+    :data => {:toogle => "popover", :placement => "right", :content => "Your name. That's easy.", :trigger => "focus"} %>
+
+  <%= f.text_field :uid, :class=> "form-control middle", :placeholder => "Unique ID", :rel => "popover",
+    :data => {:toogle => "popover", :placement => "right", :content => "Length between 6 and 15, only numbers and no spaces.", :trigger => "focus"} %>
+
+  <%= f.email_field :email, :class=> "form-control middle", :placeholder => "Email", :rel => "popover",
+    :data => {:toogle => "popover", :placement => "right", :content => "Your email. Another easy one.", :trigger => "focus"} %>
 
   <%= f.fields_for :account, resource.build_account do |account_form| %>
-    <%= account_form.text_field :agency, :class=> "form-control middle", :placeholder => "Agency Number" %>
-    <%= account_form.text_field :number, :class=> "form-control middle", :placeholder => "Account Number" %>
+    <%= account_form.text_field :agency, :class => "form-control middle", :placeholder => "Agency Number", :rel => "popover",
+      :data => {:toogle => "popover", :placement => "right", :content => "Length between 3 and 10, only numbers and no spaces.", :trigger => "focus"} %>
+
+    <%= account_form.text_field :number, :class => "form-control middle", :placeholder => "Account Number", :rel => "popover",
+      :data => {:toogle => "popover", :placement => "right", :content => "Length between 3 and 10, only numbers and no spaces.", :trigger => "focus"} %>
   <% end %>
 
-  <%= f.password_field :password, :class=> "form-control middle", :placeholder => "Password" %>
-  <%= f.password_field :password_confirmation, :class=> "form-control last", :placeholder => "Password Confirmation" %>
+  <%= f.password_field :password, :class=> "form-control middle", :placeholder => "Password", :rel => "popover",
+    :data => {:toogle => "popover", :placement => "right", :content => "Length between 8 and 128. Be creative!", :trigger => "focus"} %>
+
+  <%= f.password_field :password_confirmation, :class=> "form-control last", :placeholder => "Password Confirmation", :rel => "popover",
+    :data => {:toogle => "popover", :placement => "right", :content => "Confirm the password above.", :trigger => "focus"} %>
 
   <%= f.submit "Sign up", :class => "btn btn-lg btn-primary btn-block" %>
 <% end %>

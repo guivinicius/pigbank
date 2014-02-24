@@ -16,3 +16,6 @@ $('a#myOwnAccountLink').click(function(e){
   $('input#account_agency').val(agency);
   $('input#account_number').val(account);
 });
+
+// Activating popover functionality.
+$("[rel='popover']").popover();

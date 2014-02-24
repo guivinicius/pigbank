@@ -22,7 +22,8 @@ class Account < ActiveRecord::Base
    :numericality => { :greater_than_or_equal_to => 0 }
 
   validates :agency, :number,
-    :numericality => { :only_integer => true }
+    :numericality => { :only_integer => true },
+    :length => { :in => 3..10 }
 
   validates :number,
     :uniqueness => { :scope => :agency }
