@@ -1,7 +1,6 @@
 language: ruby
 rvm:
 - 2.0.0
-- 2.1.0
 env:
 - DB=postgresql
 before_script:
@@ -9,6 +8,7 @@ before_script:
 script:
 - RAILS_ENV=test bundle exec rake --trace db:migrate
 - bundle exec rspec spec
+cache: bundler
 deploy:
   provider: heroku
   api_key:
