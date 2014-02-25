@@ -5,24 +5,24 @@ class DepositsController < ApplicationController
   end
 
   def check
+
     @user = User.by_account(params[:account])
-    credit_service = CreditService.new(@user, credit_params[:amount])
-    if credit_service.valid?
-      @deposit = Credit.new(credit_params)
-    else
-      redirect_to new_deposit_path, :alert => credit_service.errors.full_messages
+    @deposit = Credit.new(:user => @user, :amount => credit_params[:amount], :activity_type => 0)
+
+    if @deposit.invalid?
+      redirect_to new_deposit_path, :alert => @deposit.errors.full_messages
     end
 
   end
 
   def create
     user = User.by_account(params[:account])
-    credit_service = CreditService.new(user, credit_params[:amount], "Deposit")
-    if credit_service.valid?
-      @deposit = credit_service.credit!
-      redirect_to deposit_path(@deposit), :notice => "Amount deposited successfully."
+    deposit = Credit.new(:user => user, :amount => credit_params[:amount], :activity_type => 0, :description => "Credit")
+
+    if CreditService.new(deposit).credit!
+      redirect_to deposit_path(deposit), :notice => "Amount deposited successfully."
     else
-      redirect_to new_deposit_path, :alert => credit_service.errors.full_messages
+      redirect_to new_deposit_path, :alert => deposit.errors.full_messages
     end
 
   end

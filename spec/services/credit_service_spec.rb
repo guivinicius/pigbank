@@ -5,10 +5,8 @@ describe CreditService do
   let(:user) { create(:user) }
   let(:account) { user.account }
 
-  let(:amount) { 100 }
-
-  let(:valid_credit_service) { CreditService.new(user, amount) }
-  let(:invalid_credit_service) { CreditService.new(user, 0) }
+  let(:valid_credit_service) { CreditService.new(build(:credit, :amount => 10, :user => user)) }
+  let(:invalid_credit_service) { CreditService.new(build(:credit, :amount => 0, :user => user)) }
 
   describe "#credit!" do
 
@@ -23,11 +21,7 @@ describe CreditService do
       it "increment user balance" do
         expect {
           valid_credit_service.credit!
-        }.to change { user.balance }.by(100)
-      end
-
-      it "returns a instance of Credit" do
-        expect(valid_credit_service.credit!).to be_a(Credit)
+        }.to change { user.balance }.by(10)
       end
 
     end
@@ -46,45 +40,8 @@ describe CreditService do
         }.not_to change { user.balance }
       end
 
-      it "returns a instance of Credit" do
-        expect(invalid_credit_service.credit!).to be_a(Credit)
-      end
-
     end
 
-  end
-
-  describe "#valid?" do
-    context "when attributes are valid" do
-
-      it "returns true" do
-        expect(valid_credit_service.valid?).to eql(true)
-      end
-
-    end
-
-    context "when attributes are not valid" do
-
-      it "returns false" do
-        expect(invalid_credit_service.valid?).to eql(false)
-      end
-
-    end
-  end
-
-  describe "#errors?" do
-
-    context "when attributes are valid" do
-      it "returns a empty array" do
-        expect(valid_credit_service.errors).not_to have(1).error_on(:amount)
-      end
-    end
-
-    context "when attributes are not valid" do
-      it "returns a arrays with errors" do
-        expect(invalid_credit_service.errors).to have(1).error_on(:amount)
-      end
-    end
   end
 
 end
