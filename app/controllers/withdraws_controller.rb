@@ -6,28 +6,27 @@ class WithdrawsController < ApplicationController
   end
 
   def check
-    debit_service = DebitService.new(current_user, withdraw_params[:amount])
-    if debit_service.valid?
-      @withdraw = Debit.new(withdraw_params)
-    else
-      redirect_to new_withdraw_path, :alert => debit_service.errors.full_messages
+    @withdraw = Debit.new(:user => current_user, :amount => withdraw_params[:amount], :activity_type => 1)
+
+    if @withdraw.invalid?
+      redirect_to new_withdraw_path, :alert => @withdraw.errors.full_messages
     end
 
   end
 
   def create
-    debit_service = DebitService.new(current_user, withdraw_params[:amount], "Withdraw", params[:password])
-    if debit_service.valid?
-      @withdraw = debit_service.debit!
+    @withdraw = Debit.new(:user => current_user, :amount => withdraw_params[:amount], :activity_type => 1, :description => "Withdraw")
+
+    if DebitService.new(@withdraw).debit_with_password!(params[:password])
       redirect_to withdraw_path(@withdraw), :notice => "Withdrawal completed successfully."
     else
-      redirect_to new_withdraw_path, :alert => debit_service.errors.full_messages
+      redirect_to new_withdraw_path, :alert => @withdraw.errors.full_messages
     end
 
   end
 
   def show
-    @withdraw = Debit.find(params[:id])
+    @withdraw = current_user.debits.find(params[:id])
   end
 
   private

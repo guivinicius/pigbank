@@ -8,12 +8,12 @@ class TransferencesController < ApplicationController
   def check
 
     @user = User.by_account(params[:account])
-    transference_service = TransferenceService.new(current_user, @user, transference_params[:amount])
-    if transference_service.valid?
-      @transference = Transference.new(transference_params)
-      @fee = FeeService.new(transference_params[:amount], Time.zone.now).calculate
+    @transference = Transference.new(:from_user => current_user, :to_user => @user, :amount => transference_params[:amount])
+
+    if @transference.valid?
+      @fee = FeeService.new(transference_params[:amount]).calculate
     else
-      redirect_to new_transference_path, :alert => transference_service.errors.full_messages
+      redirect_to new_transference_path, :alert => @transference.errors.full_messages
     end
 
   end
@@ -21,18 +21,18 @@ class TransferencesController < ApplicationController
   def create
 
     user = User.by_account(params[:account])
-    transference_service = TransferenceService.new(current_user, user, transference_params[:amount])
-    if transference_service.valid?
-      transference = transference_service.transfer!
+    transference = Transference.new(:from_user => current_user, :to_user => user, :amount => transference_params[:amount])
+
+    if TransferenceService.new(transference).transfer!
       redirect_to transference_path(transference), :notice => "Amount transfered successfully."
     else
-      redirect_to new_transference_path, :alert => transference_service.errors.full_messages
+      redirect_to new_transference_path, :alert => transference.errors.full_messages
     end
 
   end
 
   def show
-    @transference = Transference.find(params[:id])
+    @transference = current_user.transferences.find(params[:id])
     @from_user = @transference.from_user
     @to_user = @transference.to_user
   end

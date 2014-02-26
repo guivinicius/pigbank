@@ -1,39 +1,31 @@
 class DebitService
 
-  def initialize(user, amount, description = "Debit", password = "")
-    @user = user
-    @amount = amount
-    @password = password
-
-    @debit = Debit.new(:user => @user, :amount => @amount, :activity_type => 1, :description => description)
-    @debit.valid?
-
-    validate_password if @password.present?
+  def initialize(debit)
+    @debit = debit
+    @user = @debit.user
   end
 
   def debit!
 
     ActiveRecord::Base.transaction do
       @debit.save
-      @debit.user.account.decrement!(:balance, @debit.amount)
-    end if valid?
 
-    @debit
+      account = @user.account
+      account.decrement!(:balance, @debit.amount)
+    end if @debit.valid?
+
   end
 
-  def valid?
-    errors.size == 0
+  def debit_with_password!(password)
+
+    if @user.valid_password?(password)
+      debit!
+    else
+      @debit.errors.add(:password, "is wrong.")
+
+      false
+    end
+
   end
-
-  def errors
-    @debit.errors
-  end
-
-  private
-
-  def validate_password
-    errors.add(:password, "is wrong.") if !@user.valid_password?(@password)
-  end
-
 
 end

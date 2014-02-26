@@ -17,7 +17,7 @@ class DepositsController < ApplicationController
 
   def create
     user = User.by_account(params[:account])
-    deposit = Credit.new(:user => user, :amount => credit_params[:amount], :activity_type => 0, :description => "Credit")
+    deposit = Credit.new(:user => user, :amount => credit_params[:amount], :activity_type => 0, :description => "Deposit")
 
     if CreditService.new(deposit).credit!
       redirect_to deposit_path(deposit), :notice => "Amount deposited successfully."

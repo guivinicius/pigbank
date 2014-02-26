@@ -5,11 +5,14 @@ feature "View Statement" do
   given(:user) { create(:user) }
 
   background do
-    @credit = CreditService.new(user, 100).credit!
-    @credit.created_at = (Time.zone.now - 10.days)
-    @credit.save
+    credit = build(:credit, :user => user, :amount => 100)
+    CreditService.new(credit).credit!
 
-    @debit = DebitService.new(user, 50).debit!
+    credit.created_at = (Time.zone.now - 10.days)
+    credit.save
+
+    @debit = build(:debit, :user => user, :amount => 50)
+    DebitService.new(@debit).debit!
 
     visit new_user_session_path
 

@@ -21,7 +21,12 @@ class Transference < ActiveRecord::Base
     :presence => true
 
   validates :amount,
-    :numericality => { :greater_than => 0, :less_than_or_equal_to => :from_user_balance }
+    :numericality => { :greater_than => 0 }
+
+  validates :amount_plus_fee,
+    :numericality => { :less_than_or_equal_to => :from_user_balance, :message => "has to be less or equal to your current balance." }
+
+  validate :different_users
 
   belongs_to :from_user,
     :class_name => "User"
@@ -33,6 +38,14 @@ class Transference < ActiveRecord::Base
 
   def from_user_balance
     from_user.balance
+  end
+
+  def different_users
+    errors.add(:base, "You can't make a transference to you own account.") if from_user_id == to_user_id
+  end
+
+  def amount_plus_fee
+    amount + FeeService.new(amount).calculate
   end
 
 end

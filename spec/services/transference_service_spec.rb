@@ -8,8 +8,11 @@ describe TransferenceService do
   let(:user_2) { create(:user) }
   let(:account_2) { user_2.account }
 
-  let(:valid_transference_service) { TransferenceService.new(user_1, user_2, 100) }
-  let(:invalid_transference_service) { TransferenceService.new(user_1, user_2, 0) }
+  let(:valid_transference) { build(:transference, :from_user => user_1, :to_user => user_2, :amount => 100) }
+  let(:invalid_transference) { build(:transference, :from_user => user_1, :to_user => user_2, :amount => 0) }
+
+  let(:valid_transference_service) { TransferenceService.new(valid_transference) }
+  let(:invalid_transference_service) { TransferenceService.new(invalid_transference) }
 
   before do
     account_1.balance = 200
@@ -75,53 +78,6 @@ describe TransferenceService do
         }.not_to change(Transaction.debits, :count)
       end
 
-    end
-
-  end
-
-  describe "#valid?" do
-    context "when attributes are valid" do
-
-      it "returns true" do
-        expect(valid_transference_service.valid?).to eql(true)
-      end
-
-    end
-
-    context "when attributes are not valid" do
-
-      it "returns false" do
-        expect(invalid_transference_service.valid?).to eql(false)
-      end
-
-    end
-  end
-
-  describe "#errors?" do
-
-    it "does something" do
-
-    end
-    context "when attributes are valid" do
-      it "returns a empty array" do
-        expect(valid_transference_service.errors).not_to have(1).error_on(:amount)
-      end
-    end
-
-    context "when attributes are not valid" do
-      it "returns a arrays with errors" do
-        expect(invalid_transference_service.errors).to have(1).error_on(:amount)
-      end
-    end
-  end
-
-  describe "#has_enought_balance?" do
-
-    it "adds a error on balance" do
-      account_1.balance = 100
-      account_1.save
-
-      expect(valid_transference_service.errors).to have(1).error_on(:balance)
     end
 
   end
