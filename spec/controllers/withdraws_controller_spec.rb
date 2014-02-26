@@ -20,8 +20,8 @@ describe WithdrawsController do
       expect(response.status).to eq(200)
     end
 
-    it "assigns @withdraw" do
-      expect(assigns(:withdraw)).to eq(withdraw)
+    it "assigns @receipt" do
+      expect(assigns(:receipt)).to be_kind_of(ReceiptPresenter)
     end
 
     it "renders new template" do

@@ -20,8 +20,8 @@ describe DepositsController do
       expect(response.status).to eq(200)
     end
 
-    it "assigns @deposit" do
-      expect(assigns(:deposit)).to eq(deposit)
+    it "assigns @receipt" do
+      expect(assigns(:receipt)).to be_kind_of(ReceiptPresenter)
     end
 
     it "renders new template" do

@@ -7,6 +7,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ]
 SimpleCov.start('rails') do
   add_group "Services", "app/services"
+  add_group "Presenters", "app/presenters"
 end
 
 ENV["RAILS_ENV"] ||= 'test'

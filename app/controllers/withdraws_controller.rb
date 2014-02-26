@@ -26,7 +26,7 @@ class WithdrawsController < ApplicationController
   end
 
   def show
-    @withdraw = current_user.debits.find(params[:id])
+    @receipt = ReceiptPresenter.new(current_user.debits.find(params[:id]))
   end
 
   private

@@ -42,8 +42,8 @@ describe TransferencesController do
       expect(response.status).to eq(200)
     end
 
-    it "assigns @transference" do
-      expect(assigns(:transference)).to eq(transference)
+    it "assigns @receipt" do
+      expect(assigns(:receipt)).to be_kind_of(ReceiptPresenter)
     end
 
     it "renders new template" do

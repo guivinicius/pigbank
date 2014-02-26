@@ -1,0 +1,24 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading">
+    Receipt
+  </div>
+
+  <div class="panel-body" style="text-align:center;">
+
+    <div class="well well-sm">
+      <h5><%= receipt.description %> Receipt <small><%= "##{receipt.id}" %></small></h5>
+
+      <p><%= receipt.user_name %></p>
+      <p>UID: <%= receipt.user_uid %></p>
+      <p>Agency: <%= receipt.account_agency %></p>
+      <p>Account: <%= receipt.account_number %></p>
+      <hr>
+      <p>Amount: <%= number_to_currency(receipt.amount) %></p>
+      <hr>
+      <p>Transaction at <%= l(receipt.created_at, :format => :long) %></p>
+    </div>
+
+  </div>
+
+</div>

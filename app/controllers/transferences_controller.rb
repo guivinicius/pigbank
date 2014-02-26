@@ -32,9 +32,7 @@ class TransferencesController < ApplicationController
   end
 
   def show
-    @transference = current_user.transferences.find(params[:id])
-    @from_user = @transference.from_user
-    @to_user = @transference.to_user
+    @receipt = ReceiptPresenter.new(current_user.transferences.find(params[:id]))
   end
 
   private

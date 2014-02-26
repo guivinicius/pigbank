@@ -28,8 +28,7 @@ class DepositsController < ApplicationController
   end
 
   def show
-    @deposit = Credit.find(params[:id])
-    @user = @deposit.user
+    @receipt = ReceiptPresenter.new(Credit.find(params[:id]))
   end
 
   private
